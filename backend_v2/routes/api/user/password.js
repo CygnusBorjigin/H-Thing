@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 const password = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
+const cors = require('cors');
+
+password.use(cors());
 
 // import database schema
 const User = require('../../../models/User');

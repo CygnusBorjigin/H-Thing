@@ -11,6 +11,7 @@ const ChangePassword = () => {
 	const [oldPassword, setOldPassword] = useState("");
 	const [showProblem, setShowProblem] = useState(false);
 	const [showResult, setShowResult] = useState(false);
+	const [errorMessage, setErrorMessage] = useState("");
 	const handelChange = (event) => {
 		const { name, value } = event.target;
 		if (name === "newPassword") {
@@ -24,24 +25,40 @@ const ChangePassword = () => {
 	};
 	const handelChangePassword = async () => {
 		if (newPassword === conformPassword) {
-			var data = JSON.stringify({
-				"old_password": oldPassword,
-				"new_password": newPassword
-			});
-			var config = {
-				method: 'put',
-				url: configData.changePassword,
-				headers: {
-					'Content-Type': 'application/json',
-					'x-auth-token': localStorage.getItem("token")
-				},
-				data : data
-			};
-			const res = await axios(config);
-			setShowResult(true);
-			setShowProblem(false);
+			try {
+				var data = JSON.stringify({
+					"old_password": oldPassword,
+					"new_password": newPassword
+				});
+				
+				var config = {
+					method: 'put',
+					url: configData.changePassword,
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': localStorage.getItem("token")
+					},
+					data : data
+				};
+				const res = await axios(config);
+				const { message } = res;
+				
+				if (message === "password changed"){
+					setShowResult(true);
+					setShowProblem(false);
+				} else {
+					setShowProblem(true);
+					setShowResult(false);
+					setErrorMessage(message);
+				}
+
+			} catch (err) {
+				setShowProblem(true);
+				setErrorMessage("Server Error");
+			}
 		} else {
 			setShowProblem(true);
+			setErrorMessage("The two enter new passwords does not match");
 		}
 		setNewPassword("");
 		setConformPassword("");
@@ -83,9 +100,12 @@ const ChangePassword = () => {
 				<NormalButton text={"Conform"} func={handelChangePassword}/>
 			</div>
 			<div className="flex flex-cols justify-center mt-10">
-				{showProblem && <ErrorStr info={"Problem Occured"} />}
+				{showProblem && <ErrorStr info={ errorMessage } />}
 				{showResult && <InfoStr info={"password changed"} />}
 			</div>
+		{ console.log(showProblem) }
+		{ console.log(errorMessage) }
+		{ console.log(showResult) }
 		</div>
 	);
 };

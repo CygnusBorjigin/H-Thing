@@ -1,12 +1,13 @@
 // impoer frameworks
 const express = require('express');
 const authen = express.Router();
-const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const auth = require('../../../middleware/auth.js');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
+const cors = require('cors');
+
 
 authen.use(cors());
 // import the User module from databse

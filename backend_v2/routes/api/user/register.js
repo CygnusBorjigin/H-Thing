@@ -6,6 +6,9 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
+const cors = require('cors');
+
+register.use(cors());
 
 const User = require('../../../models/User');
 

@@ -3,6 +3,9 @@ const express = require('express');
 const email = express.Router();
 const { check, validationResult } = require('express-validator');
 const auth = require('../../../middleware/auth');
+const cors = require('cors');
+
+email.use(cors());
 
 // import database schema
 const User = require('../../../models/User');
