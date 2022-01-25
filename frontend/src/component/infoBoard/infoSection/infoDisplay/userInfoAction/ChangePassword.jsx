@@ -99,10 +99,14 @@ const ChangePassword = () => {
 			<div className="flex flex-cols justify-center mt-10">
 				<NormalButton text={"Conform"} func={handelChangePassword}/>
 			</div>
-			<div className="flex flex-cols justify-center mt-10">
-				{showProblem && <ErrorStr info={ errorMessage } />}
-				{showResult && <InfoStr info={"password changed"} />}
-			</div>
+			{ showProblem &&  <div className="flex flex-cols justify-center mt-10">
+						<ErrorStr text={ errorMessage } />
+					</div>
+			}
+			{ showResult &&  <div className="flex flex-cols justify-center mt-10">
+					<ErrorStr text={ errorMessage } />
+					</div>
+			}
 		{ console.log(showProblem) }
 		{ console.log(errorMessage) }
 		{ console.log(showResult) }

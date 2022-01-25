@@ -87,7 +87,7 @@ const ProjectDashBoard = () => {
 
     return (
         <div>
-            <h1 className="mt-16 text-center text-gray-500 font-cizel">(Beta V 0.1.3  update daily)</h1>
+            <h1 className="mt-16 text-center text-gray-500 font-cizel">(Beta V 0.2.1  update daily)</h1>
             <NewProject 
 	    	classname="mx-auto" 
 	    	addcontent={addProject}
