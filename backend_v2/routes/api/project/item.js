@@ -24,35 +24,38 @@ item.post('/',
             check('list_id', 'A vaild list id is required').not().isEmpty(),
             check('item_name', 'A valid item it required').not().isEmpty(),
             async (req, res) => {
-                // check for errors in the input
-                const errors = validationResult(req);
-                if (!errors.isEmpty()) {
-                    res.status(400).json({
-                        message: errors.array(),
-                    });
-                } else {
-                    try {
-                        //check if the user owns the list
-                        const user = req.user.id;
-                        const list = await List.findById(req.body.list_id);
-                        const list_owner = list.user;
-                        if (user == list_owner) {
-                            list.items = [...list.items, req.body.item_name];
-                            list.save();
-                            res.json(list);
-                        } else {
-                            res.status(500).json({
-                                message: 'The user does not have access to this list',
-                            })
-                        }
-                    } catch (err) {
-                        res.status(500).json({
-				message: "server error, item",
-                               error: err.message
-                            });
-                    }
-                }
-            });
+		    // check for errors in the input
+		    const errors = validationResult(req);
+		    if (!errors.isEmpty()) {
+			    res.status(400).json({
+				    message: errors.array()
+			    });
+		    } else {
+			    try {
+				    //check if the user owns the list
+				    const user = req.user.id;
+				    const list = await List.findById(req.body.list_id);
+				    const list_owner = list.user;
+				    if (user == list_owner) {
+					    const new_item = {
+						    content: req.body.item_name
+					    };
+					    list.items = [...list.items, new_item];
+					    list.save();
+					    res.json(list);
+				    } else {
+					    res.status(500).json({
+						    message: 'The user does not have access to this list',
+					    })
+				    }
+			    } catch (err) {
+				    res.status(500).json({
+					    message: "server error, item",
+					    error: err.message
+				    });
+			    }
+		    }
+	    });
 
 // DELETE request to delete an item from the list
 // This is a private rout
