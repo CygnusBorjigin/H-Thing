@@ -18,7 +18,7 @@ const ListSchema = new mongoose.Schema({
 		startDate: {
 			type: Date,
 			required: false
-		}
+		},
 		endDate: {
 			type: Date,
 			required: false

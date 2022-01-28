@@ -47,7 +47,8 @@ item.post('/',
                         }
                     } catch (err) {
                         res.status(500).json({
-                                message: err.message,
+				message: "server error, item",
+                               error: err.message
                             });
                     }
                 }
