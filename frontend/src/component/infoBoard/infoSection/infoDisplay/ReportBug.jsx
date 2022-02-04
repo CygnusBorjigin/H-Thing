@@ -37,7 +37,7 @@ const ReportBug = () => {
 				<InfoStr text={ 'Thank you for tell me about the bug' } />
 			</div>
 			<div className="flex flex-row justify-center">
-				<textarea className="mb-10 font-cormorant border-2 border-gray-200 h-80 w-2/3" onChange={ handelChange } value={ bugReport }/>
+				<textarea className="mb-10 font-cormorant border-2 border-gray-200 h-80 w-2/3 focus:outline-none focus:border-gray-400" onChange={ handelChange } value={ bugReport }/>
 			</div>
 			<div className="flex flex-row justify-center">
 				<NormalButton text={ "Report" } func={ reportBug }/>

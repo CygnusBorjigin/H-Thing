@@ -14,7 +14,7 @@ const NewThing = (props) => {
         	<div className="flex flex-col justify-center mt-2 w-1/3 mx-auto border-2 border-gray-400 rounded-lg drop-shadow-md">
 	            <input type="text" 
 			placeholder="new list" 
-			className="w-5/6 mx-auto my-4 rounded-md h-8 text-center border-gray-300 border-2 font-cormorant" 
+			className="w-5/6 mx-auto my-4 rounded-md h-8 text-center border-gray-300 border-2 font-cormorant focus:outline-none focus:border-gray-400" 
 			value={newListValue}
 			onChange={handleChange}
                    />

@@ -39,7 +39,7 @@ const DeleteUser = () => {
 				placeholder="please enter your email for comformation"
 				value={userEmail}
 				onChange={handelChange}
-				className="h-8 w-1/2 text-center rounded-sm text-gray-500 font-raleway border-2 border-gray-300"
+				className="h-8 w-1/2 text-center rounded-sm text-gray-500 font-raleway border-2 border-gray-300 focus:outline-none focus:border-red-400"
 			/>
 		</div>
 		<div className="flex flex-cols justify-center mt-10">

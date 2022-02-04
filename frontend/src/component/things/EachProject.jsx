@@ -125,7 +125,7 @@ const Thing = (props) => {
                 })}
             </ul>
             {inputingNewItem && <div className="flex flex-row">
-                                    <input type="text" placeholder="new Item" className="basis-4/5 font-cormorant" onChange={handelChangeNewItem} value={newItemValue}/>
+                                    <input type="text" placeholder="new Item" className="basis-4/5 font-cormorant focus:outline-none focus:border-gray-400" onChange={handelChangeNewItem} value={newItemValue}/>
                                     <button className="basis-1/5" onClick={handelAddNewItem}>Add</button>
                                 </div>
             }
