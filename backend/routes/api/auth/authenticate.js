@@ -42,38 +42,27 @@ authen.post('/',
                     try {
                         // find the user in the database
                         let user = await User.findOne({ email });
-                        if (!user) {
-                            res.status(400).json({
-                                message: 'Invalid Credentials',
-                            })
-                        } else {
-                            // found the user
-                            // check if the passwords match
-                            const matches = await bcrypt.compare(password, user.password);
-                            if (!matches) {
-                                // the passwords do not match
-                                res.status(400).json({
-                                    message: "Invalid Crendentials",
-                                });
-                            } else {
-                                // the password matches
-                                const payload = {
-                                    user: {
-                                        id: user.id
-                                    }
-                                };
-                                jwt.sign(
-                                    payload,
-                                    config.get('jwtSecret'),
-                                    { expiresIn: '1 days' },
-                                    (err, token) => {
-                                        if (err) throw err;
-                                        res.json({token});
-                                    }
-                                );
-                            }
+                        if (!user) return res.status(400).json({ message: 'Invalid Credentials'})
+                        // found the user
+                        // check if the passwords match
+                        const matches = await bcrypt.compare(password, user.password);
+                        if (!matches) return res.status(400).json({ message: "Invalid Crendentials"});
+                        const payload = {
+                                user: {
+                                    id: user.id
+                                }
+                            };
+                            jwt.sign(
+                                payload,
+                                config.get('jwtSecret'),
+                                { expiresIn: '1 days' },
+                                (err, token) => {
+                                    if (err) throw err;
+                                    res.json({token});
+                                }
+                            );
                         }
-                    } catch (err) {
+                     catch (err) {
                         res.status(500).json({
                             message: 'server error',
                         });

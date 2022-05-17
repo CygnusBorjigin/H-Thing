@@ -179,3 +179,21 @@ Once the request is processed, there are three possible responds:
 3. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
 4. If the user described in the json web token does not match the user information of the owner of the project this request seeks to delete, a json object `{message : The user does not have write access to this list }` with the status code $500$ will be returned.
 5. If no error occurred in the process and the corresponding list has been updated, a json file containing the information of the updated list will be returned.
+
+## Auth route
+
+The auth route has one endpoint, authenticate.
+
+`api/auth/authenticate`
+
+This is a public endpoint.
+
+The endpoint can receive a post request. It requires the request body to contain two fields "email" and "password" to authenticate the user.
+
+Once the request is processed, there are five possible responds:
+
+1. If the "email" field of the json object in request body does not contain an email address, a json object `{message : "A valid email is required"}` with a status code $400$ will be returned.
+2. If the "password" field of the json object in request body does not contain a string with less than sic characters , a json object `{message : "A valid password is required"}` with a status code $400$ will be returned.
+3. If the email entered does not match any user email in the database or if the password entered does not match the password in the corresponding user profile in the database a json object `{message : "Invalid Credentials"}` with the status code $400$ will be returned.
+4. If any other error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+5. If no error occurred in the process , a json file containing json web token will be returned that is valid for one day.
