@@ -35,6 +35,7 @@ item.post('/',
 				    //check if the user owns the list
 				    const user = req.user.id;
 				    const list = await List.findById(req.body.list_id);
+                    if (!list) return res.status(400).json({message : "A valid ID is required"});
 				    const list_owner = list.user;
 				    if (user == list_owner) {
 					    const new_item = {
@@ -45,12 +46,12 @@ item.post('/',
 					    res.json(list);
 				    } else {
 					    res.status(500).json({
-						    message: 'The user does not have access to this list',
+						    message: 'The user does not have write access to this list',
 					    })
 				    }
 			    } catch (err) {
 				    res.status(500).json({
-					    message: "server error, item",
+					    message: "server error",
 					    error: err.message
 				    });
 			    }
@@ -75,6 +76,7 @@ item.delete('/',
                         //check if the user owns the list
                         const user = req.user.id;
                         const list = await List.findById(req.body.list_id);
+                        if (!list) return res.status(400).json({message : "A valid ID is required"});
                         const list_owner = list.user;
                         if (user == list_owner) {
                             list.items = list.items.filter(eachitem => eachitem !== req.body.item_name);
@@ -82,7 +84,7 @@ item.delete('/',
                             res.json(list);
                         } else {
                             res.status(500).json({
-                                message: 'The user does not have access to this list',
+                                message: 'The user does not have write access to this list',
                             })
                         }
                     } catch (err) {

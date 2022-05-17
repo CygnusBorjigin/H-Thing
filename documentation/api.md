@@ -98,3 +98,84 @@ Once the request is processed, there are four possible responds:
 2. If the json web token contains a user profile that cannot be found in the database, the json object `{message : "user does not exist"}` with the status code $400$ will be returned.
 3. If any other error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
 4. If no error occurred during the process a json object `{message : "email updated}` will be returned.
+
+
+## Project route
+
+The project route has three sub-route: list, item, and all.
+
+`api/project/all`
+
+This is a private route.
+
+The end point does not require anything in the request body.
+
+Once the request is processed, there are two possible responds:
+
+1. If the user described in the json web token is located in the database, the endpoint will respond with all the project that has list the user as the owner.
+2. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+
+`api/project/item`
+
+The endpoint can handle two request, a post request and a delete request. Both of them are private endpoints.
+
+#### post request
+
+The post request requires the request body to contain a json object that has two fields: "list_id" and "item_name". Both of which must contain a non-empty string.
+
+Once the request is processed, there are five possible responds:
+
+1. If the "list_id" is empty or if the id provided does not match any project in the database, a json object `{message : "A valid ID "}` with a status code $400$ will be returned.
+2. If the "item_name" is empty, a json object `{message : "A valid item is required "}` with a status code $400$ will be returned.
+3. If the user described in the json web token does not match the user information of the owner of the project this request seeks to change, a json object `{message : The user does not have write access to this list }` with the status code $500$ will be returned.
+4. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+5. If no error occurred in the process and the corresponding list has been updated, a json object containing the information about the updated list will be returned.
+
+#### delete request
+
+The delete request requires the request body to contain a json object that has two fields: "list_id" and "item_name". Both of which must contain a non-empty string.
+
+Once the request is processed, there are five possible responds:
+
+1. If the "list_id" is empty or if the id provided does not match any project in the database, a json object `{message : "A valid ID "}` with a status code $400$ will be returned.
+2. If the "item_name" is empty, a json object `{message : "A valid item is required "}` with a status code $400$ will be returned.
+3. If the user described in the json web token does not match the user information of the owner of the project this request seeks to change, a json object `{message : The user does not have write access to this list }` with the status code $500$ will be returned.
+4. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+5. If no error occurred in the process and the corresponding list has been updated, a json object containing the information about the updated list will be returned.
+
+`api/project.list`
+
+The endpoint can handle three request, a post request, a delete request, and a put request. All of them are private endpoints.
+
+#### post request
+
+The post request requires the request body to contain a json object that has the filed "title", which must contain a non-empty string.
+
+Once the request is processed, there are three possible responds:
+
+1. If the "title" is empty a json object `{message : "A title is required"}` with a status code $400$ will be returned.
+2. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+3. If no error occurred in the process and the corresponding list has been created, a json file with the information of the newly created list will be returned.
+
+#### delete request
+
+The delete request requires the request body to contain a json object that has the filed "list_id", which must contain a non-empty string.
+
+Once the request is processed, there are three possible responds:
+
+1. If the "list_id" is empty or if the id provided does not match any project in the database, a json object `{message : "A valid list ID is required"}` with a status code $400$ will be returned.
+2. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+3. If the user described in the json web token does not match the user information of the owner of the project this request seeks to delete, a json object `{message : The user does not have write access to this list }` with the status code $500$ will be returned.
+4. If no error occurred in the process and the corresponding list has been deleted, a json file `{message : "List deleted"}` will be returned.
+
+#### put request
+
+The delete request requires the request body to contain a json object that contains two fields "list_id", and "title", which must contain a non-empty string.
+
+Once the request is processed, there are three possible responds:
+
+1. If the "list_id" is empty or if the id provided does not match any project in the database, a json object `{message : "A valid list ID is required"}` with a status code $400$ will be returned.
+2. If the "title" is empty a json object `{message : "A title is required"}` with a status code $400$ will be returned.
+3. If any error arises during the process, a json object `{message: "server error"}` with the status code $500$ will be returned.
+4. If the user described in the json web token does not match the user information of the owner of the project this request seeks to delete, a json object `{message : The user does not have write access to this list }` with the status code $500$ will be returned.
+5. If no error occurred in the process and the corresponding list has been updated, a json file containing the information of the updated list will be returned.

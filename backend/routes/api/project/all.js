@@ -17,23 +17,17 @@ const List = require('../../../models/List');
 all.get('/',
             auth,
             async (req, res) => {
-               const errors = validationResult(req);
-                if (!errors.isEmpty()) {
-                    res.status(400).json({
-                        message: errors.array(),
-                    });
-                } else {
-                    try {
-                        const user = req.user.id; 
-                        const allList = await List.find({user: user});
-                        res.send(allList);
-                    } catch (err) {
-                       res.status(500).json({
-                                message: err.message,
-                            }); 
-                    }
-                } 
-            });
+                try {
+                    const user = req.user.id; 
+                    const allList = await List.find({user: user});
+                    res.send(allList);
+                } catch (err) {
+                    res.status(500).json({
+                            message: err.message,
+                        }); 
+                }
+            } 
+);
 
 
 module.exports = all;

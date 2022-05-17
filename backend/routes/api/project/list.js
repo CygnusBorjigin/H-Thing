@@ -33,12 +33,12 @@ list.post('/',
                     try {
                         // Construct the list object
                         const { title, items, deadline, tag, description } = req.body;
-			// Restructure the data
-			const final_items = items.map(each => {
-				return({
-					content: each,
-				});
-			});
+			            // Restructure the data
+			            const final_items = items.map(each => {
+				            return({
+					            content: each,
+				            });
+			            });
                         const newList = new List({
                             user: req.user.id,
                             title,
@@ -53,8 +53,7 @@ list.post('/',
 
                     } catch (err) {
 			    res.status(500).json({
-                            message: "Server error, list",
-		  	    error: err
+                            message: "Server error"
                         });
                     }
                 }
@@ -63,7 +62,7 @@ list.post('/',
 // This is a provate rout
 list.delete('/',
 	      auth,
-              check('list_id', 'A Valid list id is required').not().isEmpty(),
+              check('list_id', 'A valid list id is required').not().isEmpty(),
               async (req, res) => {
                 // check if any error is in the input
                 const errors = validationResult(req);
@@ -75,12 +74,13 @@ list.delete('/',
                     try {
                         const user = req.user.id;
                         const list = await List.findById(req.body.list_id);
+                        if (!list) return res.status(400).json({message : "A valid list id is required"});
                         const list_owner = list.user;
                         if (user == list_owner) {
                             const respond = await List.findByIdAndDelete({_id:req.body.list_id});
-                            res.send(respond);
+                            res.json({message : "Project deleted"});
                         } else {
-                            res.send('This user does not own this list');
+                            res.status(500).json({message : "The user does not have write access to this list"});
                         }
                     } catch (err) {
                         res.status(500).json({
@@ -94,8 +94,8 @@ list.delete('/',
 // This is a private rout
 list.put('/',
             auth,
-            check('list_id', 'A valid list id is required').not().isEmpty(),
-            check('title', 'A title is required to modify').not().isEmpty(),
+            check('list_id', 'A valid list ID is required').not().isEmpty(),
+            check('title', 'A valid title is required').not().isEmpty(),
             async (req, res) => {
                 // check if any error is in the input
                 const errors = validationResult(req);
@@ -108,12 +108,13 @@ list.put('/',
                     try {
                         const user = req.user.id;
                         const list = await List.findById(req.body.list_id);
+                        if (!list) return res.status(400).json({message : "A valid list ID is required"});
                         const list_owner = list.user;
                         if (user == list_owner) {
                             const new_list = await List.updateOne({ _id: req.body.list_id }, { title: req.body.title });
                             res.json(new_list);
                         } else {
-                            res.send('This user does not have access the list');
+                            res.send('This user does not have write access the list');
                         }    
                     } catch (err) {
                         res.status(500).json({
