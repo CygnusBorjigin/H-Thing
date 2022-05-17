@@ -14,6 +14,7 @@ const User = require('../../../models/User');
 info.get('/', auth,  async (req, res) =>{
 	try {
 		const userInfo = await User.findById(req.user.id);
+		if (!userInfo) return res.status(401).json({message: "User not found"});
 		const userName = userInfo.name;
 		const userEmail = userInfo.email;
 		const userSince = userInfo.createDate;

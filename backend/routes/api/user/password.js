@@ -11,6 +11,12 @@ password.use(cors());
 // import database schema
 const User = require('../../../models/User');
 
+// GET request that to check if the route is accessable
+
+password.get('/', (req, res) => {
+    res.send("this is the user/password route");
+})
+
 // PUT request to modify the password of a given user
 // This is a private rout
 password.put('/', 
