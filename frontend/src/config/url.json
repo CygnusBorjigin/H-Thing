@@ -1,0 +1,3 @@
+{
+        "changeEmail": "http://localhost:8000/api/user/email"
+}

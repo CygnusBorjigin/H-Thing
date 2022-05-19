@@ -1,5 +1,5 @@
 node_modules/
-config/
 daily_project_notes/
 
 package-lock.json
+default.json
