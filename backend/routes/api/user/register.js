@@ -37,9 +37,10 @@ register.post('/',
                         let user = await User.findOne({email});
                         if (user) {
                             // The user exist in the database
-				res.status(400).json({
-					message: 'The user has already been registered'
-				});
+                            console.log(user);
+                            res.status(400).json({
+					            message: 'The user has already been registered'
+                            });
                         } else {
                             // The use is indeed new
                             if (name === "") {
@@ -65,6 +66,7 @@ register.post('/',
                                      })
                         }
                     } catch (error) {
+                        console.log(error);
                         res.status(500).json({
                             errors: "server error",
                         });
