@@ -14,7 +14,7 @@ const Thing = (props) => {
 	// Logic on the items in each project
 	async function deleteItemFromDatabase(target) {
 		try{
-			const res = await axios.delete(configData.deleteItem,
+			const res = await axios.delete(configData.projectItemRoute,
 				{
                                                 headers: {
                                                    'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ const Thing = (props) => {
 
 	            const config = {
         	                    method: 'post',
-                	            url: configData.addItem,
+                	            url: configData.projectItemRoute,
                         	    headers: { 
                                 	        'Content-Type': 'application/json', 
 	                                        'x-auth-token': token
@@ -83,7 +83,7 @@ const Thing = (props) => {
 	// Logic on the project
 	const deleteProjectFromDatabase = async ( project ) => {
 		try {
-			await axios.delete(configData.deleteList,
+			await axios.delete(configData.projectListRoute,
 				{
                                                 headers: {
                                                     'x-auth-token': token,

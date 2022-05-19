@@ -83,7 +83,7 @@ const Register = () => {
                     }
                 };
                 const body = JSON.stringify(newUser);
-                const res = await axios.post(configData.registerUser, body, config);
+                const res = await axios.post(configData.userRegisterRoute, body, config);
                 handelToken(res);
                 navigate('/things');
             } catch (err) {

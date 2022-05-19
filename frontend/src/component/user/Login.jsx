@@ -44,7 +44,7 @@ const Login = () => {
 
 		var config = {
 			method: 'post',
-			url: configData.loginUser,
+			url: configData.authRoute,
 			headers: { 
 				'Content-Type': 'application/json'
 			},

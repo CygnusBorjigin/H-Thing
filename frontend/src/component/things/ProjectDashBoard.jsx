@@ -20,7 +20,7 @@ const ProjectDashBoard = () => {
 					'x-auth-token': userToken
 				}
 			};
-			const response = await axios.get(configData.getAllList, params);
+			const response = await axios.get(configData.projectAllRoute, params);
 			const result = response.data.map(e => {
 				return({
 					id: e._id,
@@ -54,7 +54,7 @@ const ProjectDashBoard = () => {
 
 			var config = {
 				method: 'post',
-				url: configData.addList,
+				url: configData.projectListRoute,
 				headers: { 
                                     'x-auth-token': userToken, 
                                     'Content-Type': 'application/json'

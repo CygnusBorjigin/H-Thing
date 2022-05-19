@@ -3,7 +3,6 @@ import NormalButton from '../../../buttonSection/NormalButton';
 import axios from 'axios';
 import configData from '../../../../../config/url.json';
 import ErrorStr from '../../infoComponent/ErrorStr';
-import InfoStr from '../../infoComponent/InfoStr';
 
 const ChangePassword = () => {
 	const [newPassword, setNewPassword] = useState("");
