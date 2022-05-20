@@ -7,6 +7,7 @@ import configData from '../../config/url.json';
 const Thing = (props) => {
 	// state variables
 	const { id, title, content, removeProject } = props;
+	const [displayTitle, setDisplayTitle] = useState(title);
 	const [currentContent, setCurrentContent] = useState(content.map(each => each.content));
 	const [inputingNewItem, setInputingNewItem] = useState(false);
 	const [newItemValue, setNewItemvalue] = useState('');
@@ -105,13 +106,33 @@ const Thing = (props) => {
 		deleteProjectFromDatabase( id );
 	};
 
-	const handelClickTitle = (event) => {
-		if (event.detail === 2) setEditProjectTitle(true);
-	};
+	const handelClickTitle = (event) => { if (event.detail === 2) setEditProjectTitle(true) };
 
-	const handelChangeTitle = (event) => {
-		setNewTitle(event.target.value);
-	}
+	const handelChangeTitle = (event) => { setNewTitle(event.target.value) };
+
+	const handelNewTitle = async () => {
+		setDisplayTitle(newTitle);
+		try {
+			const data = JSON.stringify({
+				"list_id": id,
+				"title": newTitle
+			});
+			const config = {
+				method: 'put',
+				url: configData.projectListRoute,
+				headers: { 
+					'Content-Type': 'application/json', 
+					'x-auth-token': token
+				},
+				data : data
+			};
+        	await axios(config);
+			setEditProjectTitle(false);
+
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
     return(
         <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12">
@@ -124,14 +145,15 @@ const Thing = (props) => {
 											className = "text-xl font-cormorant text-gray-400 basis-10/12"
 										/>
 										<span 
-											className='basis-1/12'
+											className='basis-1/12 text-center cursor-pointer'
+											onClick={handelNewTitle}
 										>
-											Y
+											✓
 										</span>
 										<span 
-											className='basis-1/12'
+											className='basis-1/12 text-center cursor-pointer'
 											onClick={() => setEditProjectTitle(false)}>
-											N
+											𐄂
 										</span>
 				</div> 
 			</div> 
@@ -139,10 +161,10 @@ const Thing = (props) => {
 			<div className='flex flex-row'>
 				<h1 
 					key={uuidv4()} 
-					className="text-xl my-1 basis-11/12 font-cormorant"
+					className="text-xl my-1 basis-11/12 font-cormorant cursor-pointer"
 					onClick={handelClickTitle}
 				>
-					{title}
+					{displayTitle}
 				</h1>
 				<button key={uuidv4()} className="text-xl basis-1/12 my-auto font-cormorant" onClick={() => setInputingNewItem(true)}> + </button>
                 <input type="checkbox" className="basis-1/12 my-auto font-cormorant" onClick={() => removeProjectFromDashboard()}/>
