@@ -6,13 +6,15 @@ import DangerWarning from '../warning/DangerWarning';
 import configData from '../../config/url.json';
 
 const Login = () => {
+    // state variables
     const [loginInformation, setLoginInformation] = useState({
         email: "",
         password: ""
     });
-
+    const [hidePassword, sethidePassword] = useState(true);
     const [warning, setWarning] = useState([]);
 
+    // logic
     let navigate = useNavigate();
     
     function handelChange (event) {
@@ -63,6 +65,7 @@ const Login = () => {
 			}
 		});
 	}
+
 }
 
     return(
@@ -76,12 +79,21 @@ const Login = () => {
                        value={loginInformation.email}
                        onChange={handelChange}
                        className="mt-8 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway border-gray-200 focus:outline-none border-2 focus:border-gray-400" />
-                <input type="password"
-                       name="password" 
-                       placeholder="Password" 
-                       value={loginInformation.password}
-                       onChange={handelChange}
-                       className="mt-10 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" />
+                <div className='mt-10 h-8 w-1/2 flex flex-row'>
+                    <input 
+                        type= {hidePassword && "password"}
+                        name="password" 
+                        placeholder="Password" 
+                        value={loginInformation.password}
+                        onChange={handelChange}
+                        className="basis-11/12 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" />
+                    <span
+                        className='basis-1/12 px-1 font-raleway'
+                        onClick={() => sethidePassword(prev => !prev)}
+                    >
+                        {hidePassword ? "Show" : "Hide"}
+                    </span>
+                </div>
                 <Link to="things">
                     <button type="submit" 
                             className="mt-10 mb-4 h-10 w-20 rounded-sm text-center bg-gray-300 hover:bg-gray-100 duration-100 hover:text-gray-400 font-cizel"

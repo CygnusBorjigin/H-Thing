@@ -13,6 +13,8 @@ const Register = () => {
         password2: ""
     });
 
+    const [hidePasswords, setHidePasswords] = useState(true);
+
     const [warning, setWarning] = useState([]);
 
     let navigate = useNavigate();
@@ -120,20 +122,38 @@ const Register = () => {
                        value={userInformation.email} 
                        className="mt-10 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" 
                        />
-                <input name="password1"
-                       type="password"
-                       placeholder="Password (Required)" 
-                       onChange={handelChange}
-                       value={userInformation.password1} 
-                       className="mt-10 h-8 w-1/2 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400" 
-                       />
-                <input name="password2"
-                       type="password"
-                       placeholder="Conform Password (Required)" 
-                       onChange={handelChange}
-                       value={userInformation.password2} 
-                       className="mt-10 h-8 w-1/2 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400"
-                       />
+                <div className='flex flex-row mt-10 h-8 w-1/2'>
+                    <input 
+                        name="password1"
+                        type={hidePasswords && "password"}
+                        placeholder="Password (Required)" 
+                        onChange={handelChange}
+                        value={userInformation.password1} 
+                        className="basis-11/12 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400" 
+                    />
+                    <span 
+                        className='basis-1/12 px-2 font-raleway'
+                        onClick={() => setHidePasswords(prev => !prev)}
+                    >
+                        {hidePasswords ? "Hide" : "Show"}
+                    </span>
+                </div>
+                <div className='flex flex-row mt-10 h-8 w-1/2'>
+                    <input 
+                        name="password2"
+                        type={hidePasswords && "password"}
+                        placeholder="Conform Password (Required)" 
+                        onChange={handelChange}
+                        value={userInformation.password2} 
+                        className="basis-11/12 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400"
+                    />
+                    <span 
+                        className='basis-1/12 px-2 font-raleway'
+                        onClick={() => setHidePasswords(prev => !prev)}
+                    >
+                        {hidePasswords ? "Hide" : "Show"}
+                    </span>
+                </div>
                 <button type="submit" 
                         className="mt-10 mb-4 h-10 w-20 rounded-md text-center bg-gray-300  hover:bg-gray-100 duration-100 hover:text-gray-400 font-cizel">Signup</button>
                 <div className="text-gray-500 text-center">
