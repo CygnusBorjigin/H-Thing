@@ -13,6 +13,7 @@ const Thing = (props) => {
 
 	// Logic on the items in each project
 	async function deleteItemFromDatabase(target) {
+		console.log(target);
 		try{
 			const res = await axios.delete(configData.projectItemRoute,
 				{
@@ -32,10 +33,9 @@ const Thing = (props) => {
 
 	function handelClick (event) {
 		setCurrentContent(prev => {
-			return(prev.filter(e => e!==event.target.name));
+			return(prev.filter(e => e.content !== event.target.name));
 		});
 		// send the change to the database
-
 		deleteItemFromDatabase(event.target.name);
 	}
 
@@ -125,7 +125,7 @@ const Thing = (props) => {
             </ul>
             {inputingNewItem && <div className="flex flex-row">
                                     <input type="text" placeholder="new Item" className="basis-4/5 font-cormorant focus:outline-none focus:border-gray-400" onChange={handelChangeNewItem} value={newItemValue}/>
-                                    <button className="basis-1/5" onClick={handelAddNewItem}>Add</button>
+                                    <button className="basis-1/5 font-raleway" onClick={handelAddNewItem}>Add</button>
                                 </div>
             }
         </div>

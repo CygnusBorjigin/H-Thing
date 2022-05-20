@@ -79,7 +79,7 @@ item.delete('/',
                         if (!list) return res.status(400).json({message : "A valid ID is required"});
                         const list_owner = list.user;
                         if (user == list_owner) {
-                            list.items = list.items.filter(eachitem => eachitem !== req.body.item_name);
+                            list.items = list.items.filter(eachitem => eachitem.content !== req.body.item_name);
                             list.save();
                             res.json(list);
                         } else {
