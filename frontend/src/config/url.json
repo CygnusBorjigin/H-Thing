@@ -1,6 +1,6 @@
 {
         "changeEmail" : "http://localhost:8000/api/user/email",
-        "reportBug" : "available soon",
+        "reportBug" : "http://localhost:8000/api/support/report/bug",
         "userInfo" : "http://localhost:8000/api/user/info",
         "changePassword" : "http://localhost:8000/api/user/password",
         "deleteUser" : "http://localhost:8000/api/user",
