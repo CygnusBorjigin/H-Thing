@@ -83,13 +83,11 @@ const Register = () => {
                     }
                 };
                 const body = JSON.stringify(newUser);
-                console.log(body);
                 const res = await axios.post(configData.userRegisterRoute, body, config);
                 handelToken(res);
                 navigate('/things');
                 
             } catch (err) {
-                console.log(err.response.data.message);
 		        const newWarnings = err.response.data.message.map(e => e.msg);
 		        newWarnings.forEach(eachWarning => {
 			        setWarning(prev => {
