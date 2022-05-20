@@ -5,10 +5,13 @@ import { v4 as uuidv4 } from 'uuid';
 import configData from '../../config/url.json';
 
 const Thing = (props) => {
+	// state variables
 	const { id, title, content, removeProject } = props;
 	const [currentContent, setCurrentContent] = useState(content.map(each => each.content));
 	const [inputingNewItem, setInputingNewItem] = useState(false);
 	const [newItemValue, setNewItemvalue] = useState('');
+	const [editProjectTitle, setEditProjectTitle] = useState(false);
+	const [newTitle, setNewTitle] = useState(title);
 	const token = localStorage.getItem('token');
 
 	// Logic on the items in each project
@@ -101,13 +104,50 @@ const Thing = (props) => {
 		removeProject( id );
 		deleteProjectFromDatabase( id );
 	};
+
+	const handelClickTitle = (event) => {
+		if (event.detail === 2) setEditProjectTitle(true);
+	};
+
+	const handelChangeTitle = (event) => {
+		setNewTitle(event.target.value);
+	}
+
     return(
         <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12">
-            <div className='flex flex-row'>
-                <h1 key={uuidv4()} className="text-xl my-1 basis-11/12 font-cormorant">{title}</h1>
-	    	<button key={uuidv4()} className="text-xl basis-1/12 my-auto font-cormorant" onClick={() => setInputingNewItem(true)}> + </button>
+			{editProjectTitle ? 
+			<div className='flex flex-row'>
+				<div className='my-1 basis-11/12 flex flex-row'>
+										<input 
+											value = {newTitle}
+											onChange = {handelChangeTitle}
+											className = "text-xl font-cormorant text-gray-400 basis-10/12"
+										/>
+										<span 
+											className='basis-1/12'
+										>
+											Y
+										</span>
+										<span 
+											className='basis-1/12'
+											onClick={() => setEditProjectTitle(false)}>
+											N
+										</span>
+				</div> 
+			</div> 
+			:
+			<div className='flex flex-row'>
+				<h1 
+					key={uuidv4()} 
+					className="text-xl my-1 basis-11/12 font-cormorant"
+					onClick={handelClickTitle}
+				>
+					{title}
+				</h1>
+				<button key={uuidv4()} className="text-xl basis-1/12 my-auto font-cormorant" onClick={() => setInputingNewItem(true)}> + </button>
                 <input type="checkbox" className="basis-1/12 my-auto font-cormorant" onClick={() => removeProjectFromDashboard()}/>
-            </div>
+			</div>
+			}
             <hr />
             <ul>
                 {currentContent.map(each => {
