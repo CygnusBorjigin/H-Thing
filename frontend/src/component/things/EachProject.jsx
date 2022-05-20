@@ -16,15 +16,15 @@ const Thing = (props) => {
 		try{
 			const res = await axios.delete(configData.projectItemRoute,
 				{
-                                                headers: {
-                                                   'Content-Type': 'application/json',
-                                                   'x-auth-token': token 
-                                                },
-                                                data: {
-                                                   list_id: id,
-                                                   item_name: target 
-                                                }
-                                            });
+					headers: {
+						'Content-Type': 'application/json',
+						'x-auth-token': token 
+					},
+					data: {
+						list_id: id,
+						item_name: target 
+					}
+				});
 		} catch (err) {
 			console.log(err);
 		}
@@ -43,38 +43,37 @@ const Thing = (props) => {
 		setNewItemvalue(event.target.value);
 	};
 
-    	async function addNewItemToDatabase (newItem) {
-        	try {
-	            const data = JSON.stringify({
-        	                                "list_id": id,
-                	                        "item_name": newItemValue
-                        	            });
+	async function addNewItemToDatabase (newItem) {
+		try {
+			const data = JSON.stringify({
+				"list_id": id,
+				"item_name": newItemValue
+			});
+			const config = {
+				method: 'post',
+				url: configData.projectItemRoute,
+				headers: { 
+					'Content-Type': 'application/json', 
+					'x-auth-token': token
+				},
+				data : data
+			};
+        	await axios(config);
+		} catch (err) {
+			console.log(err.message);
+		}
+	}
 
-	            const config = {
-        	                    method: 'post',
-                	            url: configData.projectItemRoute,
-                        	    headers: { 
-                                	        'Content-Type': 'application/json', 
-	                                        'x-auth-token': token
-        	                            },
-                	            data : data
-	                        };
-        	    await axios(config);
-	        } catch (err) {
-        	    console.log(err.message);
-	        }
-	    }
+	function handelAddNewItem () {
+	    setCurrentContent(prev => {
+        	return([...prev, newItemValue]);
+	    });
 
-	    function handelAddNewItem () {
-	        setCurrentContent(prev => {
-        	    return([...prev, newItemValue]);
-	        });
+        addNewItemToDatabase(newItemValue);
 
-        	addNewItemToDatabase(newItemValue);
-
-	        setNewItemvalue("");
-	        setInputingNewItem(false);
-	    }
+	    setNewItemvalue("");
+	    setInputingNewItem(false);
+	}
 	
 	const handelRemoveList = () => {
 		removeProject( id );
@@ -85,13 +84,13 @@ const Thing = (props) => {
 		try {
 			await axios.delete(configData.projectListRoute,
 				{
-                                                headers: {
-                                                    'x-auth-token': token,
-                                                    'Content-Type': 'application/json'
-                                                },
-                                                data: {
-                                                    list_id: project
-                                                }
+					headers: {
+						'x-auth-token': token,
+						'Content-Type': 'application/json'
+					},
+					data: {
+						list_id: project
+					}
 				});
 		} catch (err) {
 			console.log(err);
@@ -115,11 +114,11 @@ const Thing = (props) => {
                     return(
                         <li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
                             <input type="checkbox"
-                                   name={each}
+                                   name={each.content}
                                    onClick={handelClick}
                                    className="basis-1/12 my-auto"
                                    />
-                            <span className="ml-1 basis-11/12">{each}</span>
+                            <span className="ml-1 basis-11/12">{each.content}</span>
                         </li>
                     )
                 })}

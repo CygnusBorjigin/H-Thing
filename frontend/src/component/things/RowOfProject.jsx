@@ -24,11 +24,11 @@ const RowOfProject = (props) => {
 				return(
 					<EachProject 
 						key={uuidv4()}
-        	                    		id={e.id}
-                	            		title={e.title}
-                        	    		content={e.content}
+        	            id={e.id}
+                	    title={e.title}
+                        content={e.content}
 						removeProject={ removeProject_rowLevel }
-	                        	/>
+	                />
 				)
 			})}
 		</div>
