@@ -6,7 +6,7 @@
         "deleteUser" : "http://localhost:8000/api/user",
         "projectItemRoute" : "http://localhost:8000/api/project/item",
         "projectListRoute" : "http://localhost:8000/api/project/list",
-        "projectAllRoute" : "http://localhost:8000/api/priject/all",
+        "projectAllRoute" : "http://localhost:8000/api/project/all",
         "authRoute" : "http://localhost:8000/api/auth/authenticate",
         "userRegisterRoute" : "http://localhost:8000/api/user/register"
 }

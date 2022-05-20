@@ -7,8 +7,8 @@ import configData from '../../config/url.json';
 
 const Login = () => {
     const [loginInformation, setLoginInformation] = useState({
-        username: '',
-        password: ''
+        email: "",
+        password: ""
     });
 
     const [warning, setWarning] = useState([]);
