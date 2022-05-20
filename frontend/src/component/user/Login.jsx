@@ -75,13 +75,13 @@ const Login = () => {
                        placeholder="Email" 
                        value={loginInformation.email}
                        onChange={handelChange}
-                       className="mt-8 h-8 w-1/2 rounded-sm text-center text-gray-500 font-raleway" />
+                       className="mt-8 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway border-gray-200 focus:outline-none border-2 focus:border-gray-400" />
                 <input type="password"
                        name="password" 
                        placeholder="Password" 
                        value={loginInformation.password}
                        onChange={handelChange}
-                       className="mt-10 h-8 w-1/2 rounded-sm text-center text-gray-500 font-raleway" />
+                       className="mt-10 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" />
                 <Link to="things">
                     <button type="submit" 
                             className="mt-10 mb-4 h-10 w-20 rounded-sm text-center bg-gray-300 hover:bg-gray-100 duration-100 hover:text-gray-400 font-cizel"

@@ -114,37 +114,36 @@ const Register = () => {
                        onChange={handelChange}
                        value={userInformation.userName}
                        placeholder="User Name (Optional)" 
-                       className="mt-8 h-8 w-1/2 rounded-sm text-center text-gray-500 font-raleway" 
+                       className="mt-8 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" 
                        />
                 <input name="email"
                        placeholder="Email (Required)" 
                        onChange={handelChange}
                        value={userInformation.email} 
-                       className="mt-10 h-8 w-1/2 rounded-sm text-center text-gray-500 font-raleway" 
+                       className="mt-10 h-8 w-1/2 rounded-md text-center text-gray-500 font-raleway focus:outline-none border-2 focus:border-gray-400" 
                        />
                 <input name="password1"
+                       type="password"
                        placeholder="Password (Required)" 
                        onChange={handelChange}
                        value={userInformation.password1} 
-                       className="mt-10 h-8 w-1/2 rounded-sm text-center font-raleway" 
+                       className="mt-10 h-8 w-1/2 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400" 
                        />
                 <input name="password2"
+                       type="password"
                        placeholder="Conform Password (Required)" 
                        onChange={handelChange}
                        value={userInformation.password2} 
-                       className="mt-10 h-8 w-1/2 rounded-sm text-center font-raleway"
+                       className="mt-10 h-8 w-1/2 rounded-md text-center font-raleway focus:outline-none border-2 focus:border-gray-400"
                        />
                 <button type="submit" 
-                        className="mt-10 mb-4 h-10 w-20 rounded-sm text-center bg-gray-300  hover:bg-gray-100 duration-100 hover:text-gray-400 font-cizel">Signup</button>
+                        className="mt-10 mb-4 h-10 w-20 rounded-md text-center bg-gray-300  hover:bg-gray-100 duration-100 hover:text-gray-400 font-cizel">Signup</button>
                 <div className="text-gray-500 text-center">
                     <p className="font-raleway">------------ OR ------------</p>
                 </div>
-                <Link to="/thing" className="mt-4 mb-4 h-10 w-20 rounded-sm text-center bg-gray-300 hover:bg-gray-100 duration-100 hover:text-gray-400">
-                    <button type="button" className="mt-1 h-8 w-1/2 font-cizel" onClick={localStorage.removeItem('token')}>Login</button>
+                <Link to="/thing" className="mt-4 mb-4 h-10 w-20 rounded-md text-center bg-gray-300 hover:bg-gray-100 duration-100 hover:text-gray-400">
+                    <button type="button" className="mt-1 h-8 font-cizel" onClick={localStorage.removeItem('token')}>Login</button>
                 </Link>
-                <h1 className="text-gray-500">--------------------------------------</h1>
-                <h1 className="text-gray-500 mt-4 text-md font-raleway">Beta V0.1.1</h1>
-                <h1 className="text-gray-500 mt-4 text-md font-raleway">This is not a production application, please do not put any sensitive information in here</h1>
             </form>
             <div>
                 {warning.length !== 0 ? <DangerWarning messages={warning}/> : null}

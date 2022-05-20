@@ -15,7 +15,7 @@ const NewThing = (props) => {
 	            <input 
 					type="text" 
 					placeholder="new project" 
-					className="w-5/6 mx-auto my-4 rounded-md h-8 text-center border-gray-300 border-2 font-cormorant focus:outline-none focus:border-gray-400" 
+					className="w-5/6 mx-auto mt-4 mb-2 rounded-md h-8 text-center border-gray-300 border-2 font-cormorant focus:outline-none focus:border-gray-400" 
 					value={newListValue}
 					onChange={handleChange}
                 />
