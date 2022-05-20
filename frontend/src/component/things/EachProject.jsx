@@ -6,7 +6,7 @@ import configData from '../../config/url.json';
 
 const Thing = (props) => {
 	const { id, title, content, removeProject } = props;
-	const [currentContent, setCurrentContent] = useState(content);
+	const [currentContent, setCurrentContent] = useState(content.map(each => each.content));
 	const [inputingNewItem, setInputingNewItem] = useState(false);
 	const [newItemValue, setNewItemvalue] = useState('');
 	const token = localStorage.getItem('token');
@@ -33,7 +33,7 @@ const Thing = (props) => {
 
 	function handelClick (event) {
 		setCurrentContent(prev => {
-			return(prev.filter(e => e.content !== event.target.name));
+			return(prev.filter(e => e !== event.target.name));
 		});
 		// send the change to the database
 		deleteItemFromDatabase(event.target.name);
@@ -114,11 +114,11 @@ const Thing = (props) => {
                     return(
                         <li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
                             <input type="checkbox"
-                                   name={each.content}
+                                   name={each}
                                    onClick={handelClick}
                                    className="basis-1/12 my-auto"
                                    />
-                            <span className="ml-1 basis-11/12">{each.content}</span>
+                            <span className="ml-1 basis-11/12">{each}</span>
                         </li>
                     )
                 })}
