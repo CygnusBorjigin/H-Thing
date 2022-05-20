@@ -9,6 +9,6 @@ support.get('/', (req, res) => {
     res.send('This is the support route');
 });
 
-//support.use('/reportBug', require('./reportBug.js'));
+support.use('/report', require('./reportBug.js'));
 
 module.exports = support;
