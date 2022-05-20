@@ -21,6 +21,7 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/api/auth/gateway.js'));
 app.use('/api/project', require('./routes/api/project/gateway.js'));
 app.use('/api/user', require('./routes/api/user/gateway.js'));
+app.use('/api/support', require('./routes/api/support/gateway.js'));
 
 // initialize and start the server
 const PORT = 8000;
