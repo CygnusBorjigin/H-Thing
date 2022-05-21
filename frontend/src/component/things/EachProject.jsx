@@ -8,7 +8,7 @@ const Thing = (props) => {
 	// state variables
 	const token = localStorage.getItem('token');
 
-	const { id, title, content, removeProject } = props;
+	var { id, title, content, removeProject } = props;
 	const [editProjectTitle, setEditProjectTitle] = useState(false);
 	const [displayTitle, setDisplayTitle] = useState(title);
 	const [newTitle, setNewTitle] = useState(title);
@@ -21,7 +21,6 @@ const Thing = (props) => {
 
 	// Logic on the items in each project
 	async function deleteItemFromDatabase(target) {
-		console.log(target);
 		try{
 			const res = await axios.delete(configData.projectItemRoute,
 				{
@@ -41,7 +40,7 @@ const Thing = (props) => {
 
 	function handelClick (event) {
 		setCurrentContent(prev => {
-			return(prev.filter(e => e !== event.target.name));
+			return(prev.filter(e => e.content !== event.target.name));
 		});
 		// send the change to the database
 		deleteItemFromDatabase(event.target.name);
@@ -74,7 +73,7 @@ const Thing = (props) => {
 
 	function handelAddNewItem () {
 	    setCurrentContent(prev => {
-        	return([...prev, newItemValue]);
+        	return([...prev, {content: newItemValue}]);
 	    });
 
         addNewItemToDatabase(newItemValue);
@@ -145,11 +144,37 @@ const Thing = (props) => {
 		}
 	};
 
-	const handelNewItem = () => {
-
-	}
-
+	
 	const handelChangeItem = (event) => { setChangingItem(event.target.value) }
+	
+	const handelNewItem = async () => {
+		// change items locally
+		content = content.map(each_item => { if (each_item._id === itemBeingChanged) each_item.content = changingItem  });
+		setItemBeingChanged("");
+
+		// send the change to the database
+		try {
+			const data = JSON.stringify({
+				"list_id": id,
+				"item_id": itemBeingChanged,
+				"new_content": changingItem
+			});
+			const config = {
+				method: 'put',
+				url: configData.projectItemRoute,
+				headers: { 
+					'Content-Type': 'application/json', 
+					'x-auth-token': token
+				},
+				data : data
+			};
+        	await axios(config);
+			setEditProjectTitle(false);
+
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
     return(
         <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12">
@@ -200,16 +225,17 @@ const Thing = (props) => {
 								onChange={handelChangeItem}
 							/>
 							<span 
-											className='basis-1/12 text-center cursor-pointer'
-											onClick={handelNewItem}
-										>
-											✓
-										</span>
-										<span 
-											className='basis-1/12 text-center cursor-pointer'
-											onClick={() => setItemBeingChanged("")}>
-											𐄂
-										</span>
+								className='basis-1/12 text-center cursor-pointer'
+								onClick={handelNewItem}
+							>
+								✓
+							</span>
+							<span 
+								className='basis-1/12 text-center cursor-pointer'
+								onClick={() => setItemBeingChanged("")}
+							>
+								𐄂
+							</span>
 						</li> 
 						:
 						<li key={uuidv4()} className="my-1 flex flex-row font-cormorant">

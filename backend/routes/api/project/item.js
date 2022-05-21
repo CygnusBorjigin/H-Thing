@@ -100,8 +100,8 @@ item.delete('/',
 item.put('/',
             auth,
             check('list_id', 'A valid list id is required').not().isEmpty(),
-            check('item_name', 'A valid item name is required').not().isEmpty(),
-            check('new_item_name', 'A valid new item name is required').not().isEmpty(),
+            check('item_id', 'A valid item id is required').not().isEmpty(),
+            check('new_content', 'A valid new item name is required').not().isEmpty(),
             async (req, res) => {
                 // check for any error in the input
                 const errors = validationResult(req);
@@ -117,12 +117,14 @@ item.put('/',
                         const list_owner = list.user;
                         if (user == list_owner) {
                             list.items = list.items.map(each_item => {
-                                if (each_item !== req.body.item_name) {
+                                if (each_item._id.toString() === req.body.item_id.toString()) {
+                                    each_item.content = req.body.new_content;
                                     return each_item;
                                 } else {
-                                    return req.body.new_item_name;
+                                    return each_item;
                                 }
-                            });
+                            }
+                            );
                             list.save();
                             res.json(list);
                         } else {
