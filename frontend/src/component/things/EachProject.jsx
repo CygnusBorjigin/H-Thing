@@ -6,14 +6,18 @@ import configData from '../../config/url.json';
 
 const Thing = (props) => {
 	// state variables
-	const { id, title, content, removeProject } = props;
-	const [displayTitle, setDisplayTitle] = useState(title);
-	const [currentContent, setCurrentContent] = useState(content.map(each => each.content));
-	const [inputingNewItem, setInputingNewItem] = useState(false);
-	const [newItemValue, setNewItemvalue] = useState('');
-	const [editProjectTitle, setEditProjectTitle] = useState(false);
-	const [newTitle, setNewTitle] = useState(title);
 	const token = localStorage.getItem('token');
+
+	const { id, title, content, removeProject } = props;
+	const [editProjectTitle, setEditProjectTitle] = useState(false);
+	const [displayTitle, setDisplayTitle] = useState(title);
+	const [newTitle, setNewTitle] = useState(title);
+
+	const [currentContent, setCurrentContent] = useState(content);
+	const [inputingNewItem, setInputingNewItem] = useState(false);
+	const [changingItem, setChangingItem] = useState("");
+	const [itemBeingChanged, setItemBeingChanged] = useState("");
+	const [newItemValue, setNewItemvalue] = useState('');
 
 	// Logic on the items in each project
 	async function deleteItemFromDatabase(target) {
@@ -107,9 +111,7 @@ const Thing = (props) => {
 	};
 
 	const handelClickTitle = (event) => { if (event.detail === 2) setEditProjectTitle(true) };
-
 	const handelChangeTitle = (event) => { setNewTitle(event.target.value) };
-
 	const handelNewTitle = async () => {
 		setDisplayTitle(newTitle);
 		try {
@@ -133,6 +135,21 @@ const Thing = (props) => {
 			console.log(err);
 		}
 	};
+
+	const handelClickItem = (event) => {
+		if (event.detail === 2) {
+			const idToBeChanged = event.target.getAttribute('value');
+			const perviousContent = content.filter(each => each._id === idToBeChanged);
+			setChangingItem(perviousContent[0].content);
+			setItemBeingChanged(idToBeChanged);
+		}
+	};
+
+	const handelNewItem = () => {
+
+	}
+
+	const handelChangeItem = (event) => { setChangingItem(event.target.value) }
 
     return(
         <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12">
@@ -174,14 +191,43 @@ const Thing = (props) => {
             <ul>
                 {currentContent.map(each => {
                     return(
-                        <li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
+						(each._id === itemBeingChanged ? 
+						<li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
+							<input 
+								className='basis-10/12 text-gray-400'
+								autoFocus
+								value={changingItem}
+								onChange={handelChangeItem}
+							/>
+							<span 
+											className='basis-1/12 text-center cursor-pointer'
+											onClick={handelNewItem}
+										>
+											✓
+										</span>
+										<span 
+											className='basis-1/12 text-center cursor-pointer'
+											onClick={() => setItemBeingChanged("")}>
+											𐄂
+										</span>
+						</li> 
+						:
+						<li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
                             <input type="checkbox"
-                                   name={each}
+                                   name={each.content}
                                    onClick={handelClick}
                                    className="basis-1/12 my-auto"
                                    />
-                            <span className="ml-1 basis-11/12">{each}</span>
+                            <h1 
+								className="ml-1 basis-11/12"
+								value={each._id}
+								onClick={handelClickItem}
+							>
+									{each.content}
+							</h1>
                         </li>
+						)
+                        
                     )
                 })}
             </ul>
