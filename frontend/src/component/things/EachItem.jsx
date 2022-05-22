@@ -13,8 +13,7 @@ const EachItem = (props) => {
 
     const handelFinishItem = async (event) => {
         // remove item userside
-        removeItemFromList(event.target.name);
-
+        removeItemFromList(event.target.getAttribute('name'));
         //remove item database
         try{
 			await axios.delete(configData.projectItemRoute,
