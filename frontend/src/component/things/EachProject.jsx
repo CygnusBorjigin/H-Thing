@@ -1,90 +1,24 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 import configData from '../../config/url.json';
+import EachItem from './EachItem';
 
 const Thing = (props) => {
 	// state variables
 	const token = localStorage.getItem('token');
 
+	// states for displaying
 	var { id, title, content, removeProject } = props;
 	const [editProjectTitle, setEditProjectTitle] = useState(false);
 	const [displayTitle, setDisplayTitle] = useState(title);
 	const [newTitle, setNewTitle] = useState(title);
 
+	// states for entering new item
 	const [currentContent, setCurrentContent] = useState(content);
 	const [inputingNewItem, setInputingNewItem] = useState(false);
-	const [changingItem, setChangingItem] = useState("");
-	const [itemBeingChanged, setItemBeingChanged] = useState("");
 	const [newItemValue, setNewItemvalue] = useState('');
-
-	// Logic on the items in each project
-	async function deleteItemFromDatabase(target) {
-		try{
-			const res = await axios.delete(configData.projectItemRoute,
-				{
-					headers: {
-						'Content-Type': 'application/json',
-						'x-auth-token': token 
-					},
-					data: {
-						list_id: id,
-						item_name: target 
-					}
-				});
-		} catch (err) {
-			console.log(err);
-		}
-	}
-
-	function handelClick (event) {
-		setCurrentContent(prev => {
-			return(prev.filter(e => e.content !== event.target.name));
-		});
-		// send the change to the database
-		deleteItemFromDatabase(event.target.name);
-	}
-
-	function handelChangeNewItem (event) {
-		setNewItemvalue(event.target.value);
-	};
-
-	async function addNewItemToDatabase (newItem) {
-		try {
-			const data = JSON.stringify({
-				"list_id": id,
-				"item_name": newItemValue
-			});
-			const config = {
-				method: 'post',
-				url: configData.projectItemRoute,
-				headers: { 
-					'Content-Type': 'application/json', 
-					'x-auth-token': token
-				},
-				data : data
-			};
-        	await axios(config);
-		} catch (err) {
-			console.log(err.message);
-		}
-	}
-
-	function handelAddNewItem () {
-	    setCurrentContent(prev => {
-        	return([...prev, {content: newItemValue}]);
-	    });
-
-        addNewItemToDatabase(newItemValue);
-
-	    setNewItemvalue("");
-	    setInputingNewItem(false);
-	}
-	
-	const handelRemoveList = () => {
-		removeProject( id );
-	};
 	
 	// Logic on the project
 	const deleteProjectFromDatabase = async ( project ) => {
@@ -103,12 +37,10 @@ const Thing = (props) => {
 			console.log(err);
 		}
 	};
-
 	const removeProjectFromDashboard = () => {
 		removeProject( id );
 		deleteProjectFromDatabase( id );
 	};
-
 	const handelClickTitle = (event) => { if (event.detail === 2) setEditProjectTitle(true) };
 	const handelChangeTitle = (event) => { setNewTitle(event.target.value) };
 	const handelNewTitle = async () => {
@@ -134,33 +66,18 @@ const Thing = (props) => {
 			console.log(err);
 		}
 	};
-
-	const handelClickItem = (event) => {
-		if (event.detail === 2) {
-			const idToBeChanged = event.target.getAttribute('value');
-			const perviousContent = content.filter(each => each._id === idToBeChanged);
-			setChangingItem(perviousContent[0].content);
-			setItemBeingChanged(idToBeChanged);
-		}
-	};
-
 	
-	const handelChangeItem = (event) => { setChangingItem(event.target.value) }
-	
-	const handelNewItem = async () => {
-		// change items locally
-		content = content.map(each_item => { if (each_item._id === itemBeingChanged) each_item.content = changingItem  });
-		setItemBeingChanged("");
-
-		// send the change to the database
+	// logic for adding new item
+	const handelChangeNewItem = (event) => { setNewItemvalue(event.target.value) };
+	const addNewItemToDatabase = async (newItem) => {
 		try {
 			const data = JSON.stringify({
 				"list_id": id,
-				"item_id": itemBeingChanged,
-				"new_content": changingItem
+				"item_frontend_id": uuidv4(),
+				"item_name": newItemValue
 			});
 			const config = {
-				method: 'put',
+				method: 'post',
 				url: configData.projectItemRoute,
 				headers: { 
 					'Content-Type': 'application/json', 
@@ -169,35 +86,49 @@ const Thing = (props) => {
 				data : data
 			};
         	await axios(config);
-			setEditProjectTitle(false);
-
 		} catch (err) {
-			console.log(err);
+			console.log(err.message);
 		}
-	}
+	};
+	const handelAddNewItem = () => {
+	    setCurrentContent(prev => {
+        	return([...prev, {content: newItemValue}]);
+	    });
+
+        addNewItemToDatabase(newItemValue);
+
+	    setNewItemvalue("");
+	    setInputingNewItem(false);
+	};
+
+	// logic for removing item
+	const removeItemFrontend = (item_id) => {
+		setCurrentContent(prev => {
+			return(prev.filter(each_item => each_item.item_frontend_id !== item_id));
+		})
+	};
 
     return(
         <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12">
 			{editProjectTitle ? 
 			<div className='flex flex-row'>
-				<div className='my-1 basis-11/12 flex flex-row'>
-										<input 
-											value = {newTitle}
-											onChange = {handelChangeTitle}
-											className = "text-xl font-cormorant text-gray-400 basis-10/12"
-										/>
-										<span 
-											className='basis-1/12 text-center cursor-pointer'
-											onClick={handelNewTitle}
-										>
-											✓
-										</span>
-										<span 
-											className='basis-1/12 text-center cursor-pointer'
-											onClick={() => setEditProjectTitle(false)}>
-											𐄂
-										</span>
-				</div> 
+				<input 
+					value = {newTitle}
+					onChange = {handelChangeTitle}
+					className = "text-xl font-cormorant text-gray-400 basis-10/12"
+				/>
+				<span 
+					className='basis-1/12 text-center cursor-pointer my-auto'
+					onClick={handelNewTitle}
+				>
+					✓
+				</span>
+				<span 
+					className='basis-1/12 text-center cursor-pointer my-auto'
+					onClick={() => setEditProjectTitle(false)}
+				>
+					𐄂
+				</span>
 			</div> 
 			:
 			<div className='flex flex-row'>
@@ -214,51 +145,22 @@ const Thing = (props) => {
 			}
             <hr />
             <ul>
-                {currentContent.map(each => {
-                    return(
-						(each._id === itemBeingChanged ? 
-						<li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
-							<input 
-								className='basis-10/12 text-gray-400'
-								autoFocus
-								value={changingItem}
-								onChange={handelChangeItem}
-							/>
-							<span 
-								className='basis-1/12 text-center cursor-pointer'
-								onClick={handelNewItem}
-							>
-								✓
-							</span>
-							<span 
-								className='basis-1/12 text-center cursor-pointer'
-								onClick={() => setItemBeingChanged("")}
-							>
-								𐄂
-							</span>
-						</li> 
-						:
-						<li key={uuidv4()} className="my-1 flex flex-row font-cormorant">
-                            <input type="checkbox"
-                                   name={each.content}
-                                   onClick={handelClick}
-                                   className="basis-1/12 my-auto"
-                                   />
-                            <h1 
-								className="ml-1 basis-11/12"
-								value={each._id}
-								onClick={handelClickItem}
-							>
-									{each.content}
-							</h1>
-                        </li>
-						)
-                        
-                    )
-                })}
+                {currentContent.map(each => <EachItem
+											key={uuidv4()}
+											database_id = {each._id}
+											item_id = {each.item_frontend_id}
+											item_content = {each.content}
+											projectID = {id}
+											removeItemFromList = {removeItemFrontend}
+											/>)}
             </ul>
             {inputingNewItem && <div className="flex flex-row">
-                                    <input type="text" placeholder="new Item" className="basis-4/5 font-cormorant focus:outline-none focus:border-gray-400" onChange={handelChangeNewItem} value={newItemValue}/>
+                                    <input 
+										type="text" 
+										placeholder="new Item" 
+										className="basis-4/5 font-cormorant focus:outline-none focus:border-gray-400" 
+										onChange={handelChangeNewItem} 
+										value={newItemValue}/>
                                     <button className="basis-1/5 font-raleway" onClick={handelAddNewItem}>Add</button>
                                 </div>
             }
