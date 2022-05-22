@@ -22,6 +22,7 @@ item.get('/', (req, res) => {
 item.post('/',
             auth,
             check('list_id', 'A vaild list id is required').not().isEmpty(),
+            check('item_frontend_id', 'A valid frontend id is required').not().isEmpty(),
             check('item_name', 'A valid item it required').not().isEmpty(),
             async (req, res) => {
 		    // check for errors in the input
@@ -39,7 +40,8 @@ item.post('/',
 				    const list_owner = list.user;
 				    if (user == list_owner) {
 					    const new_item = {
-						    content: req.body.item_name
+						    content: req.body.item_name,
+                            item_frontend_id: req.body.item_frontend_id
 					    };
 					    list.items = [...list.items, new_item];
 					    list.save();

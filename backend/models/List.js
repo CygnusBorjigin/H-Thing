@@ -11,6 +11,9 @@ const ListSchema = new mongoose.Schema({
 		required: true
 	},
 	items: [{
+		item_frontend_id: {
+			type: String
+		},
 		content: {
 			type: String,
 			required: true
