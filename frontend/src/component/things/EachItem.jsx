@@ -41,6 +41,27 @@ const EachItem = (props) => {
         // change content locally
         setCurrentContent(newContent);
         setDisplayItem(true);
+
+        // send the change to the database
+		try {
+			const data = JSON.stringify({
+				"list_id": projectID,
+				"item_id": database_id,
+				"new_content": newContent
+			});
+			const config = {
+				method: 'put',
+				url: configData.projectItemRoute,
+				headers: { 
+					'Content-Type': 'application/json', 
+					'x-auth-token': token
+				},
+				data : data
+			};
+        	const res = await axios(config);
+		} catch (err) {
+			console.log(err);
+		}
     };
     
     return(
@@ -55,7 +76,7 @@ const EachItem = (props) => {
                 className="basis-1/12 my-auto"
             />
             <h1 
-				className="ml-1 basis-11/12"
+				className="ml-1 basis-11/12 cursor-pointer"
 				value={item_id}
 				onClick={handelClickItem}
 			>
@@ -67,7 +88,7 @@ const EachItem = (props) => {
 				<input 
 					value = {newContent}
 					onChange = {handelChangeContent}
-					className = "text-l font-cormorant text-gray-400 basis-10/12"
+					className = "text-l font-cormorant text-gray-400 basis-10/12 border-gray-200 focus:outline-none border-2 focus:border-gray-400"
 				/>
 				<span 
 					className='basis-1/12 text-center cursor-pointer my-auto'

@@ -115,7 +115,7 @@ const Thing = (props) => {
 				<input 
 					value = {newTitle}
 					onChange = {handelChangeTitle}
-					className = "text-xl font-cormorant text-gray-400 basis-10/12"
+					className = "text-xl font-cormorant text-gray-400 basis-10/12 border-gray-200 focus:outline-none border-2 focus:border-gray-400"
 				/>
 				<span 
 					className='basis-1/12 text-center cursor-pointer my-auto'
