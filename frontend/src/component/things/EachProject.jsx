@@ -109,7 +109,7 @@ const Thing = (props) => {
 	};
 
     return(
-        <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12 w-[320px] m-3">
+        <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12 w-[330px] m-3">
 			{editProjectTitle ? 
 			<div className='flex flex-row'>
 				<input 

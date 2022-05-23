@@ -5,13 +5,12 @@ import { v4 as uuidv4 } from 'uuid';
 import configData from '../../config/url.json';
 
 // import componemts
-import NewProject from '../things/newList';
-import RowOfProject from '../things/RowOfProject';
+import NewProject from './newList';
+import EachProject from './EachProject';
 
 const ProjectDashBoard = () => {
 	const userToken = localStorage.getItem('token');
 	const [content, setContent] = useState([]);
-	const [rows, setRows] = useState([]);
 
 
 	// get screen size
@@ -51,13 +50,6 @@ const ProjectDashBoard = () => {
 				})
 			});
 			setContent(result);
-	    // load content into rows
-			let accum = [];
-			for (var i = 0; i < result.length; i += Math.floor(windowDimenion.winWidth / 320)){
-				const chunk = result.slice(i, i + Math.floor(windowDimenion.winWidth / 320));
-				accum.push(chunk);
-			}
-			setRows(accum);
 	        } catch (err) {
         	    return err;
 	        }
@@ -66,15 +58,6 @@ const ProjectDashBoard = () => {
 	useEffect(async ()=> {
 		await getData();
 	}, []);
-
-	useEffect(() => {
-		let accum = [];
-		for (var i = 0; i < content.length; i += Math.floor(windowDimenion.winWidth / 320)){
-			const chunk = content.slice(i, i + Math.floor(windowDimenion.winWidth / 320));
-			accum.push(chunk);
-		}
-		setRows(accum);
-	}, [windowDimenion]);
 
 	const addProjectToDatabase = async (listTitle) => {
 		try {
@@ -107,13 +90,6 @@ const ProjectDashBoard = () => {
 		// update the content
 		const newContent = content.filter(each => each.id !== removedProjectId);
 		setContent( newContent );
-		// updates the rows
-		let accum = [];
-		for (var i = 0; i < newContent.length; i += 5){
-			const chunk = newContent.slice(i, i + 5);
-			accum.push(chunk);
-		}
-		setRows(accum);
 	};
 
     return (
@@ -123,14 +99,15 @@ const ProjectDashBoard = () => {
 	    	addcontent={addProject}
 	    	rerender={addProject}
 	    />
-	    <div className="px-10">
-		{rows.map(e => {
+	    <div className="flex flex-row flex-wrap">
+		{content.map(e => {
 		    return(
-		    	<RowOfProject 
+		    	<EachProject 
 					key={uuidv4()}
-			    	content={e}
+					id={e.id}
+					title={e.title}
+					content={e.content}
 			    	removeProject_rowLevel={ removeProject_DashBoardLevel }
-					projectPerRow = {Math.floor(windowDimenion.winWidth / 320)}
 			/>
 		    )
 		})}
