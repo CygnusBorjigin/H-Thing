@@ -67,6 +67,15 @@ const ProjectDashBoard = () => {
 		await getData();
 	}, []);
 
+	useEffect(() => {
+		let accum = [];
+		for (var i = 0; i < content.length; i += Math.floor(windowDimenion.winWidth / 320)){
+			const chunk = content.slice(i, i + Math.floor(windowDimenion.winWidth / 320));
+			accum.push(chunk);
+		}
+		setRows(accum);
+	}, [windowDimenion]);
+
 	const addProjectToDatabase = async (listTitle) => {
 		try {
 			var data = JSON.stringify({

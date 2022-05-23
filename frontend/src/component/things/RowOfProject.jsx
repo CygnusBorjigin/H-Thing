@@ -20,7 +20,6 @@ const RowOfProject = (props) => {
 
 	return(
 		<div className="flex flex-row">
-			{console.log(projectPerRow)}
 		{rowContent.map(e => {
 				return(
 					<EachProject 
