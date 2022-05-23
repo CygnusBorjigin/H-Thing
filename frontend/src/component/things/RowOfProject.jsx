@@ -19,7 +19,7 @@ const RowOfProject = (props) => {
 	};
 
 	return(
-		<div className={`grid grid-cols-${projectPerRow} gap-4`}>
+		<div className="flex flex-row">
 			{console.log(projectPerRow)}
 		{rowContent.map(e => {
 				return(

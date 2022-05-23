@@ -53,8 +53,8 @@ const ProjectDashBoard = () => {
 			setContent(result);
 	    // load content into rows
 			let accum = [];
-			for (var i = 0; i < result.length; i += Math.floor(windowDimenion.winWidth / 300)){
-				const chunk = result.slice(i, i + Math.floor(windowDimenion.winWidth / 300));
+			for (var i = 0; i < result.length; i += Math.floor(windowDimenion.winWidth / 320)){
+				const chunk = result.slice(i, i + Math.floor(windowDimenion.winWidth / 320));
 				accum.push(chunk);
 			}
 			setRows(accum);
@@ -121,7 +121,7 @@ const ProjectDashBoard = () => {
 					key={uuidv4()}
 			    	content={e}
 			    	removeProject_rowLevel={ removeProject_DashBoardLevel }
-					projectPerRow = {Math.floor(windowDimenion.winWidth / 300)}
+					projectPerRow = {Math.floor(windowDimenion.winWidth / 320)}
 			/>
 		    )
 		})}
