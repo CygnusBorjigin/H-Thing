@@ -63,7 +63,7 @@ const ProjectDashBoard = () => {
 		try {
 			var data = JSON.stringify({
 				"title": listTitle,
-                                "items": []
+                "items": []
 			});
 
 			var config = {
@@ -107,7 +107,7 @@ const ProjectDashBoard = () => {
 					id={e.id}
 					title={e.title}
 					content={e.content}
-			    	removeProject_rowLevel={ removeProject_DashBoardLevel }
+					removeProject={removeProject_DashBoardLevel}
 			/>
 		    )
 		})}

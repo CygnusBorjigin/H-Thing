@@ -88,6 +88,7 @@ const EachItem = (props) => {
 					value = {newContent}
 					onChange = {handelChangeContent}
 					className = "text-l font-cormorant text-gray-400 basis-10/12 border-gray-200 focus:outline-none border-2 focus:border-gray-400"
+					autoFocus
 				/>
 				<span 
 					className='basis-1/12 text-center cursor-pointer my-auto'

@@ -116,6 +116,7 @@ const Thing = (props) => {
 					value = {newTitle}
 					onChange = {handelChangeTitle}
 					className = "text-xl font-cormorant text-gray-400 basis-10/12 border-gray-200 focus:outline-none border-2 focus:border-gray-400"
+					autoFocus
 				/>
 				<span 
 					className='basis-1/12 text-center cursor-pointer my-auto'
@@ -160,7 +161,9 @@ const Thing = (props) => {
 										placeholder="new Item" 
 										className="basis-4/5 font-cormorant focus:outline-none focus:border-gray-400" 
 										onChange={handelChangeNewItem} 
-										value={newItemValue}/>
+										value={newItemValue}
+										autoFocus
+									/>
                                     <button className="basis-1/5 font-raleway" onClick={handelAddNewItem}>Add</button>
                                 </div>
             }
