@@ -10,7 +10,7 @@ import EachProject from './EachProject';
 import configData from '../../config/url.json';
 
 const RowOfProject = (props) => {
-	const { content, removeProject_rowLevel } = props;
+	const { content, removeProject_rowLevel, projectPerRow } = props;
 	const [rowContent, setRowContent] = useState(content);
 	const userToken = localStorage.getItem('token');	
 
@@ -19,7 +19,8 @@ const RowOfProject = (props) => {
 	};
 
 	return(
-		<div className='grid grid-cols-5 gap-4'>
+		<div className={`grid grid-cols-${projectPerRow} gap-4`}>
+			{console.log(projectPerRow)}
 		{rowContent.map(e => {
 				return(
 					<EachProject 

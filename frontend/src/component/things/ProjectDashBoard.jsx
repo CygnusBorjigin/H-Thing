@@ -8,11 +8,33 @@ import configData from '../../config/url.json';
 import NewProject from '../things/newList';
 import RowOfProject from '../things/RowOfProject';
 
-
 const ProjectDashBoard = () => {
 	const userToken = localStorage.getItem('token');
 	const [content, setContent] = useState([]);
 	const [rows, setRows] = useState([]);
+
+
+	// get screen size
+	const [windowDimenion, detectHW] = useState({
+		winWidth: window.innerWidth,
+		winHeight: window.innerHeight,
+	  })
+	
+	  const detectSize = () => {
+		detectHW({
+		  winWidth: window.innerWidth,
+		  winHeight: window.innerHeight,
+		})
+	  }
+	
+	  useEffect(() => {
+		window.addEventListener('resize', detectSize)
+	
+		return () => {
+		  window.removeEventListener('resize', detectSize)
+		}
+	  }, [windowDimenion])
+
 	const getData = async () => {
 		try {
 			const params = {
@@ -31,8 +53,8 @@ const ProjectDashBoard = () => {
 			setContent(result);
 	    // load content into rows
 			let accum = [];
-			for (var i = 0; i < result.length; i += 5){
-				const chunk = result.slice(i, i + 5);
+			for (var i = 0; i < result.length; i += Math.floor(windowDimenion.winWidth / 300)){
+				const chunk = result.slice(i, i + Math.floor(windowDimenion.winWidth / 300));
 				accum.push(chunk);
 			}
 			setRows(accum);
@@ -74,7 +96,7 @@ const ProjectDashBoard = () => {
 
 	const removeProject_DashBoardLevel = ( removedProjectId ) => {
 		// update the content
-		const newContent = content.filter(each => each.id != removedProjectId);
+		const newContent = content.filter(each => each.id !== removedProjectId);
 		setContent( newContent );
 		// updates the rows
 		let accum = [];
@@ -96,9 +118,10 @@ const ProjectDashBoard = () => {
 		{rows.map(e => {
 		    return(
 		    	<RowOfProject 
-				key={uuidv4()}
+					key={uuidv4()}
 			    	content={e}
 			    	removeProject_rowLevel={ removeProject_DashBoardLevel }
+					projectPerRow = {Math.floor(windowDimenion.winWidth / 300)}
 			/>
 		    )
 		})}
