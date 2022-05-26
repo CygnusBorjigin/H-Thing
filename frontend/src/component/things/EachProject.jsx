@@ -10,7 +10,7 @@ const Thing = (props) => {
 	const token = localStorage.getItem('token');
 
 	// states for displaying
-	var { id, title, content, removeProject } = props;
+	var { id, title, content, removeProject, beingDragged, beingDropped } = props;
 	const [editProjectTitle, setEditProjectTitle] = useState(false);
 	const [displayTitle, setDisplayTitle] = useState(title);
 	const [newTitle, setNewTitle] = useState(title);
@@ -110,8 +110,28 @@ const Thing = (props) => {
 		})
 	};
 
+	// logic for drag and drop
+	const handelDrag = () => {
+		beingDragged(id);
+	};
+
+	const handelDrop = () => {
+		beingDropped(id);
+	};
+
+	const handelOver = (event) => {
+		event.preventDefault();
+	};
+
+
     return(
-        <div className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12 w-[330px] m-3">
+        <div 
+			className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12 w-[330px] m-3"
+			draggable="true"
+			onDrag={handelDrag}
+			onDrop={handelDrop}
+			onDragOver={handelOver}
+		>
 			{editProjectTitle ? 
 			<div className='flex flex-row'>
 				<input 

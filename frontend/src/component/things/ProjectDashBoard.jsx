@@ -12,6 +12,10 @@ const ProjectDashBoard = () => {
 	const userToken = localStorage.getItem('token');
 	const [content, setContent] = useState([]);
 
+	// states for drag and drop project
+	const [projectBeingDragged, setProjectBeingDragged] = useState("");
+	const [projectBeingDropped, setProjectBeingDropped] = useState("");
+
 
 	// get screen size
 	const [windowDimenion, detectHW] = useState({
@@ -46,7 +50,8 @@ const ProjectDashBoard = () => {
 				return({
 					id: e._id,
 					title: e.title,
-					content: e.items
+					content: e.items,
+					order: e.order
 				})
 			});
 			setContent(result.sort((a, b) => a.order - b.order));
@@ -94,6 +99,49 @@ const ProjectDashBoard = () => {
 		setContent( newContent );
 	};
 
+	// drag and drop logic
+	const handelDragProject = (idBeingDragged) => {
+		setProjectBeingDragged(idBeingDragged);
+	};
+
+	const handelDropProject = (idBeingDropped) => {
+		setProjectBeingDropped(idBeingDropped);
+	};
+
+	const handelSwapProject = (project1, project2) => {
+		const newContent = content.map(eachProject => {
+			if (eachProject.id === project1.id) {
+				return {
+					title: eachProject.title,
+					content: eachProject.content,
+					id: eachProject.id,
+					order: project2.order
+				};
+			} else if (eachProject.id === project2.id) {
+				return {
+					title: eachProject.title,
+					content: eachProject.content,
+					id: eachProject.id,
+					order: project1.order
+				};
+			} else {
+				return {
+					title: eachProject.title,
+					content: eachProject.content,
+					id: eachProject.id,
+					order: eachProject.order
+				};
+			}
+		})
+		setContent(newContent.sort((a, b) => a.order - b.order));
+	};
+
+	useEffect(() => {
+		const firstProject = content.find(eachProject => eachProject.id === projectBeingDragged);
+		const secondProject = content.find(eachProject => eachProject.id === projectBeingDropped);
+		if (firstProject && secondProject) handelSwapProject(firstProject, secondProject);
+	}, [projectBeingDropped]);
+
     return (
         <div>
             <NewProject 
@@ -110,6 +158,8 @@ const ProjectDashBoard = () => {
 					title={e.title}
 					content={e.content}
 					removeProject={removeProject_DashBoardLevel}
+					beingDragged={handelDragProject}
+					beingDropped={handelDropProject}
 			/>
 		    )
 		})}
