@@ -32,7 +32,7 @@ list.post('/',
                     // Obtain the user information from the database
                     try {
                         // Construct the list object
-                        const { title, items, deadline, tag, description } = req.body;
+                        const { title, items, deadline, tag, description, order } = req.body;
 			            // Restructure the data
 			            const final_items = items.map(each => {
 				            return({
@@ -42,6 +42,7 @@ list.post('/',
                         const newList = new List({
                             user: req.user.id,
                             title,
+                            order,
                             items: final_items,
                             deadline,
                             tag,
@@ -52,7 +53,7 @@ list.post('/',
                         res.json(saved_list);
 
                     } catch (err) {
-			    res.status(500).json({
+                        res.status(500).json({
                             message: "Server error"
                         });
                     }

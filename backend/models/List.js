@@ -6,6 +6,10 @@ const ListSchema = new mongoose.Schema({
 		type: Schema.Types.ObjectId,
 		ref: "users"
 	},
+	order: {
+		type: Number,
+		required: true,
+	},
 	title: {
 		type: String,
 		required: true
@@ -13,6 +17,10 @@ const ListSchema = new mongoose.Schema({
 	items: [{
 		item_frontend_id: {
 			type: String
+		},
+		item_order: {
+			type: Number,
+			required: true
 		},
 		content: {
 			type: String,

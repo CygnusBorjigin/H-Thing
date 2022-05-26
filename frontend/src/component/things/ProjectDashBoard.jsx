@@ -49,7 +49,7 @@ const ProjectDashBoard = () => {
 					content: e.items
 				})
 			});
-			setContent(result);
+			setContent(result.sort((a, b) => a.order - b.order));
 	        } catch (err) {
         	    return err;
 	        }
@@ -60,10 +60,12 @@ const ProjectDashBoard = () => {
 	}, []);
 
 	const addProjectToDatabase = async (listTitle) => {
+		const currentLength = content.length;
 		try {
 			var data = JSON.stringify({
 				"title": listTitle,
-                "items": []
+                "items": [],
+				"order": currentLength
 			});
 
 			var config = {

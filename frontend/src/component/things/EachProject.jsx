@@ -70,9 +70,11 @@ const Thing = (props) => {
 	// logic for adding new item
 	const handelChangeNewItem = (event) => { setNewItemvalue(event.target.value) };
 	const addNewItemToDatabase = async (newItem) => {
+		const order = content.length;
 		try {
 			const data = JSON.stringify({
 				"list_id": id,
+				order,
 				"item_frontend_id": uuidv4(),
 				"item_name": newItemValue
 			});
@@ -92,7 +94,7 @@ const Thing = (props) => {
 	};
 	const handelAddNewItem = () => {
 	    setCurrentContent(prev => {
-        	return([...prev, {content: newItemValue}]);
+        	return([...prev, {content: newItemValue, order:content.length}]);
 	    });
 
         addNewItemToDatabase(newItemValue);
