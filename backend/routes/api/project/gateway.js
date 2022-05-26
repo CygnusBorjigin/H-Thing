@@ -12,5 +12,6 @@ project.get('/', (req, res) => {
 project.use('/list', require('./list.js'));
 project.use('/item', require('./item.js'));
 project.use('/all', require('./all.js'));
+project.use('/order', require('./order.js'));
 
 module.exports = project;

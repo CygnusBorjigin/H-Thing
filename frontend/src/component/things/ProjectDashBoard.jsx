@@ -51,7 +51,8 @@ const ProjectDashBoard = () => {
 					id: e._id,
 					title: e.title,
 					content: e.items,
-					order: e.order
+					order: e.order,
+					reference_id: e.reference_id
 				})
 			});
 			setContent(result.sort((a, b) => a.order - b.order));
@@ -70,7 +71,8 @@ const ProjectDashBoard = () => {
 			var data = JSON.stringify({
 				"title": listTitle,
                 "items": [],
-				"order": currentLength
+				"order": currentLength,
+				"reference_id": uuidv4()
 			});
 
 			var config = {
@@ -108,6 +110,35 @@ const ProjectDashBoard = () => {
 		setProjectBeingDropped(idBeingDropped);
 	};
 
+	const updateProjectInDatabase = async(project1, project2) => {
+		try {
+			var data = JSON.stringify({
+				"firstProject": {
+					referenceId: project1.id,
+					order: project1.order
+				},
+				"secondProject": {
+					referenceId: project2.id,
+					order: project2.order
+				}
+			});
+
+			var config = {
+				method: 'put',
+				url: configData.modifyOrderRoute,
+				headers: { 
+                                    'x-auth-token': userToken, 
+                                    'Content-Type': 'application/json'
+                                },
+				data : data
+			};
+			await axios(config);            
+		} catch (err) {
+			console.log(err);
+		}
+
+	}
+
 	const handelSwapProject = (project1, project2) => {
 		const newContent = content.map(eachProject => {
 			if (eachProject.id === project1.id) {
@@ -134,6 +165,7 @@ const ProjectDashBoard = () => {
 			}
 		})
 		setContent(newContent.sort((a, b) => a.order - b.order));
+		updateProjectInDatabase(project1, project2);
 	};
 
 	useEffect(() => {
