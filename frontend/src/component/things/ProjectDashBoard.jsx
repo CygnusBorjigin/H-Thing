@@ -71,8 +71,7 @@ const ProjectDashBoard = () => {
 			var data = JSON.stringify({
 				"title": listTitle,
                 "items": [],
-				"order": currentLength,
-				"reference_id": uuidv4()
+				"order": currentLength
 			});
 
 			var config = {
