@@ -10,13 +10,13 @@ const Thing = (props) => {
 	const token = localStorage.getItem('token');
 
 	// states for displaying
-	var { id, title, content, removeProject, beingDragged, beingDropped } = props;
+	var { id, title, content, removeProject, beingDragged, beingDropped, refreshForData } = props;
 	const [editProjectTitle, setEditProjectTitle] = useState(false);
 	const [displayTitle, setDisplayTitle] = useState(title);
 	const [newTitle, setNewTitle] = useState(title);
 
 	// states for entering new item
-	const [currentContent, setCurrentContent] = useState(content);
+	const [currentContent, setCurrentContent] = useState(content.sort((a, b) => a.item_order - b.item_order));
 	const [inputingNewItem, setInputingNewItem] = useState(false);
 	const [newItemValue, setNewItemvalue] = useState('');
 
@@ -132,37 +132,39 @@ const Thing = (props) => {
 		setItemBeingDragged(idBeingDragged);
 	};
 
-	const handelDropItem = (idBeingDropped) => {
+	const handelDropItem = async (idBeingDropped) => {
 		const item1 = currentContent.find(eachItem => eachItem._id === itemBeingDragged);
 		const item2 = currentContent.find(eachItem => eachItem._id === idBeingDropped);
-		const newOrder = currentContent.map(eachItem => {
-			if (eachItem._id === item1._id) {
-				return {
-					item_frontend_id: eachItem.item_frontend_id,
-					item_order: item2.item_order,
-					content: eachItem.content,
-					tag: eachItem.tag,
-					_id: eachItem._id
-				}
-			} else if (eachItem._id === item2._id) {
-				return {
-					item_frontend_id: eachItem.item_frontend_id,
-					item_order: item1.item_order,
-					content: eachItem.content,
-					tag: eachItem.tag,
-					_id: eachItem._id
-				}
-			} else {
-				return {
-					item_frontend_id: eachItem.item_frontend_id,
-					item_order: eachItem.item_order,
-					content: eachItem.content,
-					tag: eachItem.tag,
-					_id: eachItem._id
-				}
-			}
-		});
-		setCurrentContent(newOrder.sort((a, b) => a.item_order - b.item_order));
+	
+		try {
+			var data = JSON.stringify({
+				"firstItem": {
+					referenceId: item1._id,
+					order: item1.item_order
+				},
+				"secondItem": {
+					referenceId: item2._id,
+					order: item2.item_order
+				},
+				"listId": id
+			});
+
+			var config = {
+				method: 'put',
+				url: configData.modifyItemOrderRoute,
+				headers: { 
+                                    'x-auth-token': token, 
+                                    'Content-Type': 'application/json'
+                                },
+				data : data
+			};
+			const result = await axios(config); 
+			//setCurrentContent(result.data.items);
+			refreshForData();
+		} catch (err) {
+			console.log(err);
+		}
+
 	};
 
     return(

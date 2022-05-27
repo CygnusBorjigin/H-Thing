@@ -188,6 +188,7 @@ const ProjectDashBoard = () => {
 					id={e.id}
 					title={e.title}
 					content={e.content}
+					refreshForData={getData}
 					removeProject={removeProject_DashBoardLevel}
 					beingDragged={handelDragProject}
 					beingDropped={handelDropProject}

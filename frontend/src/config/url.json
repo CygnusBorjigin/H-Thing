@@ -9,5 +9,6 @@
         "projectAllRoute" : "http://localhost:8000/api/project/all",
         "authRoute" : "http://localhost:8000/api/auth/authenticate",
         "userRegisterRoute" : "http://localhost:8000/api/user/register",
-        "modifyOrderRoute": "http://localhost:8000/api/project/order/project"
+        "modifyOrderRoute": "http://localhost:8000/api/project/order/project",
+        "modifyItemOrderRoute": "http://localhost:8000/api/project/order/item"
 }

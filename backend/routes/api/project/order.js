@@ -35,6 +35,47 @@ order.put(
                 message: "server error"
             })
         }
+});
+
+// PUT request to '/item' to modify order
+order.put('/item', auth, async(req, res) => {
+    try {
+        const {firstItem, secondItem, listId} = req.body;
+        const listToChange = await List.findById(listId);
+        const newItems = listToChange.items.map(eachItem => {
+            if (eachItem._id.toString() === firstItem.referenceId) {
+                return {
+                    item_frontend_id: eachItem.item_frontend_id,
+                    item_order: secondItem.order,
+                    content: eachItem.content,
+                    tag: eachItem.tag,
+                    _id: eachItem._id
+                }
+            } else if (eachItem._id.toString() === secondItem.referenceId) {
+                return {
+                    item_frontend_id: eachItem.item_frontend_id,
+                    item_order: firstItem.order,
+                    content: eachItem.content,
+                    tag: eachItem.tag,
+                    _id: eachItem._id
+                }
+            } else {
+                return {
+                    item_frontend_id: eachItem.item_frontend_id,
+                    item_order: eachItem.item_order,
+                    content: eachItem.content,
+                    tag: eachItem.tag,
+                    _id: eachItem._id
+                }
+            }
+        });
+        listToChange.items = newItems;
+        const result = await listToChange.save();
+        res.status(200).send(result);
+    } catch (error) {
+        
+    }
+
 })
 
 
