@@ -6,7 +6,7 @@ import configData from '../../config/url.json';
 const EachItem = (props) => {
     const token = localStorage.getItem('token');
 
-    var { database_id, item_id, item_content, projectID, removeItemFromList } = props;
+    var { database_id, item_id, item_content, projectID, removeItemFromList, beingDragged, beingDropped } = props;
     const [displayItem, setDisplayItem] = useState(true);
     const [currentContent, setCurrentContent] = useState(item_content);
     const [newContent, setNewContent] = useState(item_content);
@@ -62,12 +62,30 @@ const EachItem = (props) => {
 			console.log(err);
 		}
     };
+
+	// logic for drag and drop item
+	const handelDrag = () => {
+		beingDragged(database_id);
+	};
+
+	const handelDrop = () => {
+		beingDropped(database_id)
+	};
+
+	const handelOver = (event) => {
+		event.preventDefault();
+	};
     
     return(
         displayItem 
         ?
         <li key={uuidv4()} 
-            className="my-1 flex flex-row font-cormorant">
+            className="my-1 flex flex-row font-cormorant"
+			draggable="true"
+			onDrag={handelDrag}
+			onDrop={handelDrop}
+			onDragOver={handelOver}
+			>
             <input 
                 type="checkbox"
                 name={item_id}

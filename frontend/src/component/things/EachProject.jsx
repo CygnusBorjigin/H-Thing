@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
@@ -19,6 +19,10 @@ const Thing = (props) => {
 	const [currentContent, setCurrentContent] = useState(content);
 	const [inputingNewItem, setInputingNewItem] = useState(false);
 	const [newItemValue, setNewItemvalue] = useState('');
+
+	// state for drag and drop item
+	const [itemBeingDragged, setItemBeingDragged] = useState("");
+	const [itemBeingDropped, setItemBeingDropped] = useState("");
 	
 	// Logic on the project
 	const deleteProjectFromDatabase = async ( project ) => {
@@ -74,7 +78,7 @@ const Thing = (props) => {
 		try {
 			const data = JSON.stringify({
 				"list_id": id,
-				order,
+				"item_order": order,
 				"item_frontend_id": uuidv4(),
 				"item_name": newItemValue
 			});
@@ -110,7 +114,7 @@ const Thing = (props) => {
 		})
 	};
 
-	// logic for drag and drop
+	// logic for drag and drop project
 	const handelDrag = () => {
 		beingDragged(id);
 	};
@@ -123,12 +127,29 @@ const Thing = (props) => {
 		event.preventDefault();
 	};
 
+	// logic for drag and drop item
+	const handelDragItem = (idBeingDragged) => {
+		setItemBeingDragged(idBeingDragged);
+	};
+
+	const handelDropItem = (idBeingDropped) => {
+		setItemBeingDropped(idBeingDropped);
+	};
+
+	const handelSwapItem = (item1, item2) => {
+		console.log(item1, item2);
+	};
+
+	useEffect(() => {
+		console.log(itemBeingDragged);
+		console.log(itemBeingDropped);
+	}, [itemBeingDropped])
 
     return(
         <div 
 			className="border-2 border-gray-300 drop-shadow-lg rounded-md p-1 mt-12 w-[330px] m-3"
 			draggable="true"
-			onDrag={handelDrag}
+			onDragStart={handelDrag}
 			onDrop={handelDrop}
 			onDragOver={handelOver}
 		>
@@ -169,13 +190,16 @@ const Thing = (props) => {
             <hr />
             <ul>
                 {currentContent.map(each => <EachItem
-											key={uuidv4()}
-											database_id = {each._id}
-											item_id = {each.item_frontend_id}
-											item_content = {each.content}
-											projectID = {id}
-											removeItemFromList = {removeItemFrontend}
-											/>)}
+														key={uuidv4()}
+														database_id = {each._id}
+														item_id = {each.item_frontend_id}
+														item_content = {each.content}
+														projectID = {id}
+														removeItemFromList = {removeItemFrontend}
+														beingDragged={handelDragItem}
+														beingDropped={handelDropItem}
+													/>
+											)}
             </ul>
             {inputingNewItem && <div className="flex flex-row">
                                     <input 

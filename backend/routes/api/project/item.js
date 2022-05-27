@@ -42,7 +42,7 @@ item.post('/',
 					    const new_item = {
 						    content: req.body.item_name,
                             item_frontend_id: req.body.item_frontend_id,
-                            item_order: req.body.order
+                            item_order: req.body.item_order
 					    };
 					    list.items = [...list.items, new_item];
 					    list.save();
