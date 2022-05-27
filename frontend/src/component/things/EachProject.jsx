@@ -133,17 +133,37 @@ const Thing = (props) => {
 	};
 
 	const handelDropItem = (idBeingDropped) => {
-		setItemBeingDropped(idBeingDropped);
+		const item1 = content.find(eachItem => eachItem._id === itemBeingDragged);
+		const item2 = content.find(eachItem => eachItem._id === idBeingDropped);
+		const newOrder = currentContent.map(eachItem => {
+			if (eachItem._id === item1._id) {
+				return {
+					item_frontend_id: eachItem.item_frontend_id,
+					item_order: item2.item_order,
+					content: eachItem.content,
+					tag: eachItem.tag,
+					_id: eachItem._id
+				}
+			} else if (eachItem._id === item2._id) {
+				return {
+					item_frontend_id: eachItem.item_frontend_id,
+					item_order: item1.item_order,
+					content: eachItem.content,
+					tag: eachItem.tag,
+					_id: eachItem._id
+				}
+			} else {
+				return {
+					item_frontend_id: eachItem.item_frontend_id,
+					item_order: eachItem.order,
+					content: eachItem.content,
+					tag: eachItem.tag,
+					_id: eachItem._id
+				}
+			}
+		});
+		setCurrentContent(newOrder.sort((a, b) => a.item_order - b.item_order));
 	};
-
-	const handelSwapItem = (item1, item2) => {
-		console.log(item1, item2);
-	};
-
-	useEffect(() => {
-		console.log(itemBeingDragged);
-		console.log(itemBeingDropped);
-	}, [itemBeingDropped])
 
     return(
         <div 

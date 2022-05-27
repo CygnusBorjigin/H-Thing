@@ -71,10 +71,6 @@ const EachItem = (props) => {
 	const handelDrop = () => {
 		beingDropped(database_id)
 	};
-
-	const handelOver = (event) => {
-		event.preventDefault();
-	};
     
     return(
         displayItem 
@@ -84,7 +80,6 @@ const EachItem = (props) => {
 			draggable="true"
 			onDrag={handelDrag}
 			onDrop={handelDrop}
-			onDragOver={handelOver}
 			>
             <input 
                 type="checkbox"
