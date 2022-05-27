@@ -133,8 +133,8 @@ const Thing = (props) => {
 	};
 
 	const handelDropItem = (idBeingDropped) => {
-		const item1 = content.find(eachItem => eachItem._id === itemBeingDragged);
-		const item2 = content.find(eachItem => eachItem._id === idBeingDropped);
+		const item1 = currentContent.find(eachItem => eachItem._id === itemBeingDragged);
+		const item2 = currentContent.find(eachItem => eachItem._id === idBeingDropped);
 		const newOrder = currentContent.map(eachItem => {
 			if (eachItem._id === item1._id) {
 				return {
@@ -155,7 +155,7 @@ const Thing = (props) => {
 			} else {
 				return {
 					item_frontend_id: eachItem.item_frontend_id,
-					item_order: eachItem.order,
+					item_order: eachItem.item_order,
 					content: eachItem.content,
 					tag: eachItem.tag,
 					_id: eachItem._id
@@ -212,7 +212,7 @@ const Thing = (props) => {
                 {currentContent.map(each => <EachItem
 														key={uuidv4()}
 														database_id = {each._id}
-														item_id = {each.item_frontend_id}
+														item_id = {each.hitem_frontend_id}
 														item_content = {each.content}
 														projectID = {id}
 														removeItemFromList = {removeItemFrontend}
