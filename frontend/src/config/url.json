@@ -1,14 +1,14 @@
 {
-        "changeEmail" : "http://localhost:8000/api/user/email",
-        "reportBug" : "http://localhost:8000/api/support/report/bug",
-        "userInfo" : "http://localhost:8000/api/user/info",
-        "changePassword" : "http://localhost:8000/api/user/password",
-        "deleteUser" : "http://localhost:8000/api/user",
-        "projectItemRoute" : "http://localhost:8000/api/project/item",
-        "projectListRoute" : "http://localhost:8000/api/project/list",
-        "projectAllRoute" : "http://localhost:8000/api/project/all",
-        "authRoute" : "http://localhost:8000/api/auth/authenticate",
-        "userRegisterRoute" : "http://localhost:8000/api/user/register",
-        "modifyOrderRoute": "http://localhost:8000/api/project/order/project",
-        "modifyItemOrderRoute": "http://localhost:8000/api/project/order/item"
+        "changeEmail" : "http://206.189.224.10:8000/api/user/email",
+        "reportBug" : "http://206.189.224.10:8000/api/support/report/bug",
+        "userInfo" : "http://206.189.224.10:8000/api/user/info",
+        "changePassword" : "http://206.189.224.10:8000/api/user/password",
+        "deleteUser" : "http://206.189.224.10:8000/api/user",
+        "projectItemRoute" : "http://206.189.224.10:8000/api/project/item",
+        "projectListRoute" : "http://206.189.224.10:8000/api/project/list",
+        "projectAllRoute" : "http://206.189.224.10:8000/api/project/all",
+        "authRoute" : "http://206.189.224.10:8000/api/auth/authenticate",
+        "userRegisterRoute" : "http://206.189.224.10:8000/api/user/register",
+        "modifyOrderRoute": "http://206.189.224.10:8000/api/project/order/project",
+        "modifyItemOrderRoute": "http://206.189.224.10:8000/api/project/order/item"
 }

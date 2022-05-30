@@ -74,7 +74,7 @@ const Thing = (props) => {
 	// logic for adding new item
 	const handelChangeNewItem = (event) => { setNewItemvalue(event.target.value) };
 	const addNewItemToDatabase = async (newItem) => {
-		const order = content.length;
+		const order = currentContent.length;
 		try {
 			const data = JSON.stringify({
 				"list_id": id,
@@ -98,7 +98,7 @@ const Thing = (props) => {
 	};
 	const handelAddNewItem = () => {
 	    setCurrentContent(prev => {
-        	return([...prev, {content: newItemValue, order:content.length}]);
+        	return([...prev, {content: newItemValue, order:currentContent.length}]);
 	    });
 
         addNewItemToDatabase(newItemValue);
@@ -135,7 +135,6 @@ const Thing = (props) => {
 	const handelDropItem = async (idBeingDropped) => {
 		const item1 = currentContent.find(eachItem => eachItem._id === itemBeingDragged);
 		const item2 = currentContent.find(eachItem => eachItem._id === idBeingDropped);
-	
 		try {
 			var data = JSON.stringify({
 				"firstItem": {
